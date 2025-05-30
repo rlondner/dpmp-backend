@@ -20,7 +20,7 @@ export class UserSeedService {
         // role: {
         //   id: RoleEnum.admin,
         // },
-        roleId: RoleEnum.admin as number,        
+        roleId: RoleEnum.admin as number,
       },
     });
 
@@ -45,8 +45,6 @@ export class UserSeedService {
 
           roleId: RoleEnum.admin as number,
           statusId: StatusEnum.active as number,
-
-
         }),
       );
     }
@@ -57,7 +55,6 @@ export class UserSeedService {
         //   id: RoleEnum.user,
         // },
         roleId: RoleEnum.user as number,
-
       },
     });
 

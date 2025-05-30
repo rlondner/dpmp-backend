@@ -28,11 +28,8 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
 
 import { UsersModule } from './objectmodel/users/users.module';
 
-
 @Module({
   imports: [
-
-
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],

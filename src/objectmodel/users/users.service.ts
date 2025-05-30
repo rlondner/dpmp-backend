@@ -3,6 +3,7 @@ import { Organization } from '../organizations/domain/organization';
 
 import { UserRolesService } from '../user-roles/user-roles.service';
 import { UserRole } from '../user-roles/domain/user-role';
+import { NullableType } from '../../utils/types/nullable.type';
 
 import {
   // common
@@ -49,6 +50,23 @@ export class UsersService {
       org = null;
     }
 
+    let email: string | null = null;
+
+    if (createUserDto.email) {
+      const userObject = await this.userRepository.findByEmail(
+        createUserDto.email,
+      );
+      if (userObject) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            email: 'emailAlreadyExists',
+          },
+        });
+      }
+      email = createUserDto.email;
+    }
+
     let role2: UserRole | null | undefined = undefined;
 
     if (createUserDto.role2) {
@@ -87,7 +105,7 @@ export class UsersService {
 
       password: createUserDto.password,
 
-      email: createUserDto.email,
+      email: email,
 
       provider: createUserDto.provider,
 
@@ -114,6 +132,23 @@ export class UsersService {
 
   findByIds(ids: User['id'][]) {
     return this.userRepository.findByIds(ids);
+  }
+
+  findByEmail(email: User['email']): Promise<NullableType<User>> {
+    return this.userRepository.findByEmail(email);
+  }
+
+  findBySocialIdAndProvider({
+    socialId,
+    provider,
+  }: {
+    socialId: User['socialId'];
+    provider: User['provider'];
+  }): Promise<NullableType<User>> {
+    return this.userRepository.findBySocialIdAndProvider({
+      socialId,
+      provider,
+    });
   }
 
   async update(

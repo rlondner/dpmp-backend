@@ -143,7 +143,6 @@ export class AuthService {
       //   id: StatusEnum.active,
       // };
       const statusId = StatusEnum.active as number;
-      
 
       user = await this.usersService.create({
         email: socialEmail ?? null,
@@ -208,7 +207,6 @@ export class AuthService {
       //{
       //  id: StatusEnum.inactive,
       //}
-  
     });
 
     const hash = await this.jwtService.signAsync(
@@ -534,7 +532,7 @@ export class AuthService {
       // roleId: {
       //   id: user.roleId,
       // },
-      role:  user.roleId,
+      role: user.roleId,
 
       sessionId: session.id,
       hash,
