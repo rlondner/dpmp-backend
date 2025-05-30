@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import bcrypt from 'bcryptjs';
-import { RoleEnum } from '../../../../roles/roles.enum';
-import { StatusEnum } from '../../../../statuses/statuses.enum';
-import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
+import { RoleEnum } from '../../../../objectmodel/roles/roles.enum';
+import { StatusEnum } from '../../../../objectmodel/statuses_original/statuses.enum';
+import { UserEntity } from '../../../../objectmodel/users/infrastructure/persistence/relational/entities/user.entity';
 
 @Injectable()
 export class UserSeedService {
@@ -17,9 +17,10 @@ export class UserSeedService {
   async run() {
     const countAdmin = await this.repository.count({
       where: {
-        role: {
-          id: RoleEnum.admin,
-        },
+        // role: {
+        //   id: RoleEnum.admin,
+        // },
+        roleId: RoleEnum.admin as number,        
       },
     });
 
@@ -33,23 +34,30 @@ export class UserSeedService {
           lastName: 'Admin',
           email: 'admin@example.com',
           password,
-          role: {
-            id: RoleEnum.admin,
-            name: 'Admin',
-          },
-          status: {
-            id: StatusEnum.active,
-            name: 'Active',
-          },
+          // role: {
+          //   id: RoleEnum.admin,
+          //   name: 'Admin',
+          // },
+          // status: {
+          //   id: StatusEnum.active,
+          //   name: 'Active',
+          // },
+
+          roleId: RoleEnum.admin as number,
+          statusId: StatusEnum.active as number,
+
+
         }),
       );
     }
 
     const countUser = await this.repository.count({
       where: {
-        role: {
-          id: RoleEnum.user,
-        },
+        // role: {
+        //   id: RoleEnum.user,
+        // },
+        roleId: RoleEnum.user as number,
+
       },
     });
 
@@ -63,14 +71,16 @@ export class UserSeedService {
           lastName: 'Doe',
           email: 'john.doe@example.com',
           password,
-          role: {
-            id: RoleEnum.user,
-            name: 'Admin',
-          },
-          status: {
-            id: StatusEnum.active,
-            name: 'Active',
-          },
+          // role: {
+          //   id: RoleEnum.user,
+          //   name: 'Admin',
+          // },
+          // status: {
+          //   id: StatusEnum.active,
+          //   name: 'Active',
+          // },
+          roleId: RoleEnum.user as number,
+          statusId: StatusEnum.active as number,
         }),
       );
     }

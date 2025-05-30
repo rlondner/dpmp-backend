@@ -10,15 +10,18 @@ import { UserSeedModule } from './user/user-seed.module';
 import databaseConfig from '../../config/database.config';
 import appConfig from '../../../config/app.config';
 
+import { PublicationSeedModule } from './publication/publication-seed.module';
+
 @Module({
   imports: [
+    PublicationSeedModule,
     RoleSeedModule,
     StatusSeedModule,
     UserSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],
-      envFilePath: ['.env'],
+      envFilePath: ['.env.development', '.env.production', '.env'],
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,

@@ -6,6 +6,11 @@ function validateConfig<T extends object>(
   config: Record<string, unknown>,
   envVariablesClass: ClassConstructor<T>,
 ) {
+  console.log('Validating environment variables with class-validator...');
+  console.log('NODE_ENV:', config.NODE_ENV);
+  console.log('FILE_DRIVER:', config.FILE_DRIVER);
+  console.log('ACCESS_KEY_ID:', config.ACCESS_KEY_ID);
+  //console.log(${process.cwd()}/${process.env.NODE_ENV}.env);
   const validatedConfig = plainToClass(envVariablesClass, config, {
     enableImplicitConversion: true,
   });

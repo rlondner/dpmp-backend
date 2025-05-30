@@ -7,8 +7,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AnonymousStrategy } from './strategies/anonymous.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { MailModule } from '../mail/mail.module';
-import { SessionModule } from '../session/session.module';
-import { UsersModule } from '../users/users.module';
+import { SessionModule } from '../objectmodel/session/session.module';
+import { UsersModule } from '../objectmodel/users/users.module';
 
 @Module({
   imports: [

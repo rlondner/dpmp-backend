@@ -1,6 +1,6 @@
 ---
 inject: true
-to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.module.ts
+to: src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.module.ts
 at_line: 0
 skip_if: import { <%= h.inflection.transform(type, ['pluralize']) %>Module
 ---

@@ -1,5 +1,5 @@
 ---
-to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller.ts
+to: src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller.ts
 ---
 import {
   Controller,
@@ -27,8 +27,8 @@ import { AuthGuard } from '@nestjs/passport';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
-} from '../utils/dto/infinity-pagination-response.dto';
-import { infinityPagination } from '../utils/infinity-pagination';
+} from '../../utils/dto/infinity-pagination-response.dto';
+import { infinityPagination } from '../../utils/infinity-pagination';
 import { FindAll<%= h.inflection.transform(name, ['pluralize']) %>Dto } from './dto/find-all-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.dto';
 
 @ApiTags('<%= h.inflection.transform(name, ['pluralize', 'humanize']) %>')
@@ -76,27 +76,27 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
   @Get(':id')
   @ApiParam({
     name: 'id',
-    type: String,
+    type: <% if (idType === 'increment') { -%>Number<% } else { -%>String<% } -%>,
     required: true,
   })
   @ApiOkResponse({
     type: <%= name %>,
   })
-  findById(@Param('id') id: string) {
+  findById(@Param('id') id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>) {
     return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.findById(id);
   }
 
   @Patch(':id')
   @ApiParam({
     name: 'id',
-    type: String,
+    type: <% if (idType === 'increment') { -%>Number<% } else { -%>String<% } -%>,
     required: true,
   })
   @ApiOkResponse({
     type: <%= name %>,
   })
   update(
-    @Param('id') id: string,
+    @Param('id') id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>,
     @Body() update<%= name %>Dto: Update<%= name %>Dto,
   ) {
     return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.update(id, update<%= name %>Dto);
@@ -105,10 +105,10 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
   @Delete(':id')
   @ApiParam({
     name: 'id',
-    type: String,
+    type: <% if (idType === 'increment') { -%>Number<% } else { -%>String<% } -%>,
     required: true,
   })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>) {
     return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.remove(id);
   }
 }

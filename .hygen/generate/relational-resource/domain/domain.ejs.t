@@ -1,13 +1,13 @@
 ---
-to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.ts
+to: src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.ts
 ---
 import { ApiProperty } from '@nestjs/swagger';
 
 export class <%= name %> {
   @ApiProperty({
-    type: String,
+    type: <% if (idType === 'increment') { -%>Number<% } else { -%>String<% } -%>,
   })
-  id: string;
+  id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>;
 
   @ApiProperty()
   createdAt: Date;
