@@ -44,11 +44,11 @@ export class AuthService {
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseDto> {
-    this.logger.startProfile('validateLogin');
-    //const user = await this.usersService.findByEmail(loginDto.email);
-    const user = await this.usersService.findById(1);
+    //this.logger.startProfile('validateLogin');
+    const user = await this.usersService.findByEmail(loginDto.email);
+    //const user = await this.usersService.findById(1);
 
-    this.logger.info('validateLogin', {
+    this.logger.info('loginAttempt', {
       props: {
         email: loginDto.email,
         userId: user?.id,
@@ -57,6 +57,12 @@ export class AuthService {
     });
 
     if (!user) {
+          this.logger.warn('notFoundUser', {
+      props: {
+        email: loginDto.email,
+
+      },
+    });
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {
@@ -75,6 +81,12 @@ export class AuthService {
     }
 
     if (!user.password) {
+                this.logger.warn('incorrectPassword', {
+      props: {
+        email: loginDto.email,
+
+      }
+          });
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {
@@ -89,6 +101,12 @@ export class AuthService {
     );
 
     if (!isValidPassword) {
+                      this.logger.warn('incorrectPassword', {
+      props: {
+        email: loginDto.email,
+
+      }
+          });
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {
@@ -97,6 +115,12 @@ export class AuthService {
       });
     }
 
+                    this.logger.info('validLogin', {
+      props: {
+        email: loginDto.email,
+
+      }
+          });
     const hash = crypto
       .createHash('sha256')
       .update(randomStringGenerator())

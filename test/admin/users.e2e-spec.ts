@@ -1,7 +1,8 @@
 import { APP_URL, ADMIN_EMAIL, ADMIN_PASSWORD } from '../utils/constants';
 import request from 'supertest';
-import { RoleEnum } from '../../src/objectmodel/roles/roles.enum';
-import { StatusEnum } from '../../src/objectmodel/statuses_original/statuses.enum';
+import { RoleEnum } from '../../apps/api/src/objectmodel/roles/roles.enum';
+import { StatusEnum } from '../../apps/api/src/objectmodel/statuses_original/statuses.enum';
+
 
 describe('Users Module', () => {
   const app = APP_URL;

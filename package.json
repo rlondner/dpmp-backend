@@ -28,7 +28,7 @@
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:swc": "nest start -b swc -w",
     "start:debug": "nest start --inspect --debug --watch",
-    "start:prod": "cross-env NODE_ENV=production node dist/main",
+    "start:prod": "cross-env NODE_ENV=production node dist/apps/api/src/main",
     "lint": "eslint --fix \"{src,apps,test}/**/*.ts\"",
     "test": "jest",
     "test:watch": "jest --watch",
