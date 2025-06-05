@@ -6,7 +6,7 @@ import { NullableType } from '../../../../utils/types/nullable.type';
 import { IPaginationOptions } from '../../../../utils/types/pagination-options';
 import { <%= name %> } from '../../domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
 
-export abstract class <%= name %>Repository {
+export abstract class <%= name %>RepositoryBase {
   abstract create(
     data: Omit<<%= name %>, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<<%= name %>>;

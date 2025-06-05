@@ -3,16 +3,15 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/api/src",
   "compilerOptions": {
+    "deleteOutDir": true,
+    "tsConfigPath": "apps/api/tsconfig.app.json",
     "assets": [
       {
         "include": "i18n/**/*",
         "outDir": "dist/apps/api/src",
         "watchAssets": true
       }
-    ],
-    "webpack": false,
-    "tsConfigPath": "apps/api/tsconfig.app.json"
-    
+    ]
   },
   "monorepo": true,
   "root": "apps/api",
