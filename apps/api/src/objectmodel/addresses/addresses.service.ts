@@ -4,22 +4,22 @@ import {
 } from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
-import { AddressRepository } from './infrastructure/persistence/address.repository';
+import { AddressRepositoryBase } from './infrastructure/persistence/address.repository';
 import { IPaginationOptions } from '../../utils/types/pagination-options';
 import { Address } from './domain/address';
 
 @Injectable()
-export class AddressesService {
+export class AddressesServiceBase {
   constructor(
     // Dependencies here
-    private readonly addressRepository: AddressRepository,
+    private readonly addressRepositoryBase: AddressRepositoryBase,
   ) {}
 
   async create(createAddressDto: CreateAddressDto) {
     // Do not remove comment below.
     // <creating-property />
 
-    return this.addressRepository.create({
+    return this.addressRepositoryBase.create({
       // Do not remove comment below.
       // <creating-property-payload />
       country: createAddressDto.country,
@@ -43,7 +43,7 @@ export class AddressesService {
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.addressRepository.findAllWithPagination({
+    return this.addressRepositoryBase.findAllWithPagination({
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
@@ -52,11 +52,11 @@ export class AddressesService {
   }
 
   findById(id: Address['id']) {
-    return this.addressRepository.findById(id);
+    return this.addressRepositoryBase.findById(id);
   }
 
   findByIds(ids: Address['id'][]) {
-    return this.addressRepository.findByIds(ids);
+    return this.addressRepositoryBase.findByIds(ids);
   }
 
   async update(
@@ -67,7 +67,7 @@ export class AddressesService {
     // Do not remove comment below.
     // <updating-property />
 
-    return this.addressRepository.update(id, {
+    return this.addressRepositoryBase.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
       country: updateAddressDto.country,
@@ -87,6 +87,6 @@ export class AddressesService {
   }
 
   remove(id: Address['id']) {
-    return this.addressRepository.remove(id);
+    return this.addressRepositoryBase.remove(id);
   }
 }

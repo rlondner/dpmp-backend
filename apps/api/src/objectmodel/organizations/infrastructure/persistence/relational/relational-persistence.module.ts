@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { OrganizationRepository } from '../organization.repository';
-import { OrganizationRelationalRepository } from './repositories/organization.repository';
+import { OrganizationRepositoryBase } from '../organization.repository';
+import { OrganizationRelationalRepositoryBase } from './repositories/organization.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrganizationEntity } from './entities/organization.entity';
 
@@ -8,10 +8,10 @@ import { OrganizationEntity } from './entities/organization.entity';
   imports: [TypeOrmModule.forFeature([OrganizationEntity])],
   providers: [
     {
-      provide: OrganizationRepository,
-      useClass: OrganizationRelationalRepository,
+      provide: OrganizationRepositoryBase,
+      useClass: OrganizationRelationalRepositoryBase,
     },
   ],
-  exports: [OrganizationRepository],
+  exports: [OrganizationRepositoryBase],
 })
 export class RelationalOrganizationPersistenceModule {}

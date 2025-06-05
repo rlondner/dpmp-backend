@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AddressRepository } from '../address.repository';
-import { AddressRelationalRepository } from './repositories/address.repository';
+import { AddressRepositoryBase } from '../address.repository';
+import { AddressRelationalRepositoryBase } from './repositories/address.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddressEntity } from './entities/address.entity';
 
@@ -8,10 +8,10 @@ import { AddressEntity } from './entities/address.entity';
   imports: [TypeOrmModule.forFeature([AddressEntity])],
   providers: [
     {
-      provide: AddressRepository,
-      useClass: AddressRelationalRepository,
+      provide: AddressRepositoryBase,
+      useClass: AddressRelationalRepositoryBase,
     },
   ],
-  exports: [AddressRepository],
+  exports: [AddressRepositoryBase],
 })
 export class RelationalAddressPersistenceModule {}

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UserRoleRepository } from '../user-role.repository';
-import { UserRoleRelationalRepository } from './repositories/user-role.repository';
+import { UserRoleRepositoryBase } from '../user-role.repository';
+import { UserRoleRelationalRepositoryBase } from './repositories/user-role.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRoleEntity } from './entities/user-role.entity';
 
@@ -8,10 +8,10 @@ import { UserRoleEntity } from './entities/user-role.entity';
   imports: [TypeOrmModule.forFeature([UserRoleEntity])],
   providers: [
     {
-      provide: UserRoleRepository,
-      useClass: UserRoleRelationalRepository,
+      provide: UserRoleRepositoryBase,
+      useClass: UserRoleRelationalRepositoryBase,
     },
   ],
-  exports: [UserRoleRepository],
+  exports: [UserRoleRepositoryBase],
 })
 export class RelationalUserRolePersistenceModule {}

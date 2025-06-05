@@ -4,21 +4,21 @@ import { Repository, In } from 'typeorm';
 import { StatusEntity } from '../entities/status.entity';
 import { NullableType } from '../../../../../../utils/types/nullable.type';
 import { Status } from '../../../../domain/status';
-import { StatusRepository } from '../../status.repository';
+import { StatusRepositoryBase } from '../../status.repository';
 import { StatusMapper } from '../mappers/status.mapper';
 import { IPaginationOptions } from '../../../../../../utils/types/pagination-options';
 
 @Injectable()
-export class StatusRelationalRepository implements StatusRepository {
+export class StatusRelationalRepositoryBase implements StatusRepositoryBase {
   constructor(
     @InjectRepository(StatusEntity)
-    private readonly statusRepository: Repository<StatusEntity>,
+    private readonly statusRepositoryBase: Repository<StatusEntity>,
   ) {}
 
   async create(data: Status): Promise<Status> {
     const persistenceModel = StatusMapper.toPersistence(data);
-    const newEntity = await this.statusRepository.save(
-      this.statusRepository.create(persistenceModel),
+    const newEntity = await this.statusRepositoryBase.save(
+      this.statusRepositoryBase.create(persistenceModel),
     );
     return StatusMapper.toDomain(newEntity);
   }
@@ -28,7 +28,7 @@ export class StatusRelationalRepository implements StatusRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Status[]> {
-    const entities = await this.statusRepository.find({
+    const entities = await this.statusRepositoryBase.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
@@ -37,7 +37,7 @@ export class StatusRelationalRepository implements StatusRepository {
   }
 
   async findById(id: Status['id']): Promise<NullableType<Status>> {
-    const entity = await this.statusRepository.findOne({
+    const entity = await this.statusRepositoryBase.findOne({
       where: { id },
     });
 
@@ -45,7 +45,7 @@ export class StatusRelationalRepository implements StatusRepository {
   }
 
   async findByIds(ids: Status['id'][]): Promise<Status[]> {
-    const entities = await this.statusRepository.find({
+    const entities = await this.statusRepositoryBase.find({
       where: { id: In(ids) },
     });
 
@@ -53,7 +53,7 @@ export class StatusRelationalRepository implements StatusRepository {
   }
 
   async update(id: Status['id'], payload: Partial<Status>): Promise<Status> {
-    const entity = await this.statusRepository.findOne({
+    const entity = await this.statusRepositoryBase.findOne({
       where: { id },
     });
 
@@ -61,8 +61,8 @@ export class StatusRelationalRepository implements StatusRepository {
       throw new Error('Record not found');
     }
 
-    const updatedEntity = await this.statusRepository.save(
-      this.statusRepository.create(
+    const updatedEntity = await this.statusRepositoryBase.save(
+      this.statusRepositoryBase.create(
         StatusMapper.toPersistence({
           ...StatusMapper.toDomain(entity),
           ...payload,
@@ -74,6 +74,6 @@ export class StatusRelationalRepository implements StatusRepository {
   }
 
   async remove(id: Status['id']): Promise<void> {
-    await this.statusRepository.delete(id);
+    await this.statusRepositoryBase.delete(id);
   }
 }

@@ -1,8 +1,8 @@
 import { UsersServiceBase } from '../users/users.service';
-import { OrganizationsService } from '../organizations/organizations.service';
+import { OrganizationsServiceBase } from '../organizations/organizations.service';
 import { Organization } from '../organizations/domain/organization';
 import { UserRole } from '../user-roles/domain/user-role';
-import { UserRolesService } from '../user-roles/user-roles.service';
+import { UserRolesServiceBase } from '../user-roles/user-roles.service';
 
 import { UserRepository } from './infrastructure/persistence/user.repository';
 import { NullableType } from '../../utils/types/nullable.type';
@@ -20,13 +20,13 @@ export class UsersService extends UsersServiceBase {
   private readonly extendedUserRepository: UserRepository;
 
   constructor(
-    organizationService: OrganizationsService,
-    userRoleService: UserRolesService,
-    userRepository: UserRepository,
+    organizationServiceBase: OrganizationsServiceBase,
+    userRoleServiceBase: UserRolesServiceBase,
+    userRepositoryBase: UserRepository,
   ) {
     console.log('UsersService constructor called');
-    super(organizationService, userRoleService, userRepository);
-    //this.extendedUserRepository = userRepository;
+    super(organizationServiceBase, userRoleServiceBase, userRepositoryBase);
+    this.extendedUserRepository = userRepositoryBase;
   }
 
   override async create(createUserDto: CreateUserDto): Promise<User> {
@@ -35,7 +35,7 @@ export class UsersService extends UsersServiceBase {
     let org: Organization | null | undefined = undefined;
 
     if (createUserDto.org) {
-      const orgObject = await this.organizationService.findById(
+      const orgObject = await this.organizationServiceBase.findById(
         createUserDto.org.id,
       );
       if (!orgObject) {
@@ -71,7 +71,7 @@ export class UsersService extends UsersServiceBase {
     let role2: UserRole | null | undefined = undefined;
 
     if (createUserDto.role2) {
-      const role2Object = await this.userRoleService.findById(
+      const role2Object = await this.userRoleServiceBase.findById(
         createUserDto.role2.id,
       );
       if (!role2Object) {
@@ -87,7 +87,7 @@ export class UsersService extends UsersServiceBase {
       role2 = null;
     }
 
-    return this.userRepository.create({
+    return this.userRepositoryBase.create({
       // Do not remove comment below.
       // <creating-property-payload />
       org,

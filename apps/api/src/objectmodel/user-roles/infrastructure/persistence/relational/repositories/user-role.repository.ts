@@ -4,21 +4,23 @@ import { Repository, In } from 'typeorm';
 import { UserRoleEntity } from '../entities/user-role.entity';
 import { NullableType } from '../../../../../../utils/types/nullable.type';
 import { UserRole } from '../../../../domain/user-role';
-import { UserRoleRepository } from '../../user-role.repository';
+import { UserRoleRepositoryBase } from '../../user-role.repository';
 import { UserRoleMapper } from '../mappers/user-role.mapper';
 import { IPaginationOptions } from '../../../../../../utils/types/pagination-options';
 
 @Injectable()
-export class UserRoleRelationalRepository implements UserRoleRepository {
+export class UserRoleRelationalRepositoryBase
+  implements UserRoleRepositoryBase
+{
   constructor(
     @InjectRepository(UserRoleEntity)
-    private readonly userRoleRepository: Repository<UserRoleEntity>,
+    private readonly userRoleRepositoryBase: Repository<UserRoleEntity>,
   ) {}
 
   async create(data: UserRole): Promise<UserRole> {
     const persistenceModel = UserRoleMapper.toPersistence(data);
-    const newEntity = await this.userRoleRepository.save(
-      this.userRoleRepository.create(persistenceModel),
+    const newEntity = await this.userRoleRepositoryBase.save(
+      this.userRoleRepositoryBase.create(persistenceModel),
     );
     return UserRoleMapper.toDomain(newEntity);
   }
@@ -28,7 +30,7 @@ export class UserRoleRelationalRepository implements UserRoleRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<UserRole[]> {
-    const entities = await this.userRoleRepository.find({
+    const entities = await this.userRoleRepositoryBase.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
@@ -37,7 +39,7 @@ export class UserRoleRelationalRepository implements UserRoleRepository {
   }
 
   async findById(id: UserRole['id']): Promise<NullableType<UserRole>> {
-    const entity = await this.userRoleRepository.findOne({
+    const entity = await this.userRoleRepositoryBase.findOne({
       where: { id },
     });
 
@@ -45,7 +47,7 @@ export class UserRoleRelationalRepository implements UserRoleRepository {
   }
 
   async findByIds(ids: UserRole['id'][]): Promise<UserRole[]> {
-    const entities = await this.userRoleRepository.find({
+    const entities = await this.userRoleRepositoryBase.find({
       where: { id: In(ids) },
     });
 
@@ -56,7 +58,7 @@ export class UserRoleRelationalRepository implements UserRoleRepository {
     id: UserRole['id'],
     payload: Partial<UserRole>,
   ): Promise<UserRole> {
-    const entity = await this.userRoleRepository.findOne({
+    const entity = await this.userRoleRepositoryBase.findOne({
       where: { id },
     });
 
@@ -64,8 +66,8 @@ export class UserRoleRelationalRepository implements UserRoleRepository {
       throw new Error('Record not found');
     }
 
-    const updatedEntity = await this.userRoleRepository.save(
-      this.userRoleRepository.create(
+    const updatedEntity = await this.userRoleRepositoryBase.save(
+      this.userRoleRepositoryBase.create(
         UserRoleMapper.toPersistence({
           ...UserRoleMapper.toDomain(entity),
           ...payload,
@@ -77,6 +79,6 @@ export class UserRoleRelationalRepository implements UserRoleRepository {
   }
 
   async remove(id: UserRole['id']): Promise<void> {
-    await this.userRoleRepository.delete(id);
+    await this.userRoleRepositoryBase.delete(id);
   }
 }

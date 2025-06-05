@@ -9,7 +9,7 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { OrganizationsService } from './organizations.service';
+import { OrganizationsServiceBase } from './organizations.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import {
@@ -35,15 +35,17 @@ import { FindAllOrganizationsDto } from './dto/find-all-organizations.dto';
   path: 'organizations',
   version: '1',
 })
-export class OrganizationsController {
-  constructor(private readonly organizationsService: OrganizationsService) {}
+export class OrganizationsControllerBase {
+  constructor(
+    private readonly organizationsServiceBase: OrganizationsServiceBase,
+  ) {}
 
   @Post()
   @ApiCreatedResponse({
     type: Organization,
   })
   create(@Body() createOrganizationDto: CreateOrganizationDto) {
-    return this.organizationsService.create(createOrganizationDto);
+    return this.organizationsServiceBase.create(createOrganizationDto);
   }
 
   @Get()
@@ -60,7 +62,7 @@ export class OrganizationsController {
     }
 
     return infinityPagination(
-      await this.organizationsService.findAllWithPagination({
+      await this.organizationsServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -80,7 +82,7 @@ export class OrganizationsController {
     type: Organization,
   })
   findById(@Param('id') id: number) {
-    return this.organizationsService.findById(id);
+    return this.organizationsServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -96,7 +98,7 @@ export class OrganizationsController {
     @Param('id') id: number,
     @Body() updateOrganizationDto: UpdateOrganizationDto,
   ) {
-    return this.organizationsService.update(id, updateOrganizationDto);
+    return this.organizationsServiceBase.update(id, updateOrganizationDto);
   }
 
   @Delete(':id')
@@ -106,6 +108,6 @@ export class OrganizationsController {
     required: true,
   })
   remove(@Param('id') id: number) {
-    return this.organizationsService.remove(id);
+    return this.organizationsServiceBase.remove(id);
   }
 }

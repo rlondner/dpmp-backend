@@ -4,22 +4,22 @@ import {
 } from '@nestjs/common';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
-import { OrganizationRepository } from './infrastructure/persistence/organization.repository';
+import { OrganizationRepositoryBase } from './infrastructure/persistence/organization.repository';
 import { IPaginationOptions } from '../../utils/types/pagination-options';
 import { Organization } from './domain/organization';
 
 @Injectable()
-export class OrganizationsService {
+export class OrganizationsServiceBase {
   constructor(
     // Dependencies here
-    private readonly organizationRepository: OrganizationRepository,
+    private readonly organizationRepositoryBase: OrganizationRepositoryBase,
   ) {}
 
   async create(createOrganizationDto: CreateOrganizationDto) {
     // Do not remove comment below.
     // <creating-property />
 
-    return this.organizationRepository.create({
+    return this.organizationRepositoryBase.create({
       // Do not remove comment below.
       // <creating-property-payload />
       subscription: createOrganizationDto.subscription,
@@ -33,7 +33,7 @@ export class OrganizationsService {
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.organizationRepository.findAllWithPagination({
+    return this.organizationRepositoryBase.findAllWithPagination({
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
@@ -42,11 +42,11 @@ export class OrganizationsService {
   }
 
   findById(id: Organization['id']) {
-    return this.organizationRepository.findById(id);
+    return this.organizationRepositoryBase.findById(id);
   }
 
   findByIds(ids: Organization['id'][]) {
-    return this.organizationRepository.findByIds(ids);
+    return this.organizationRepositoryBase.findByIds(ids);
   }
 
   async update(
@@ -57,7 +57,7 @@ export class OrganizationsService {
     // Do not remove comment below.
     // <updating-property />
 
-    return this.organizationRepository.update(id, {
+    return this.organizationRepositoryBase.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
       subscription: updateOrganizationDto.subscription,
@@ -67,6 +67,6 @@ export class OrganizationsService {
   }
 
   remove(id: Organization['id']) {
-    return this.organizationRepository.remove(id);
+    return this.organizationRepositoryBase.remove(id);
   }
 }

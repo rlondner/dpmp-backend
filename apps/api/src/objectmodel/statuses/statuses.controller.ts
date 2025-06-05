@@ -9,7 +9,7 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { StatusesService } from './statuses.service';
+import { StatusesServiceBase } from './statuses.service';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
 import {
@@ -35,15 +35,15 @@ import { FindAllStatusesDto } from './dto/find-all-statuses.dto';
   path: 'statuses',
   version: '1',
 })
-export class StatusesController {
-  constructor(private readonly statusesService: StatusesService) {}
+export class StatusesControllerBase {
+  constructor(private readonly statusesServiceBase: StatusesServiceBase) {}
 
   @Post()
   @ApiCreatedResponse({
     type: Status,
   })
   create(@Body() createStatusDto: CreateStatusDto) {
-    return this.statusesService.create(createStatusDto);
+    return this.statusesServiceBase.create(createStatusDto);
   }
 
   @Get()
@@ -60,7 +60,7 @@ export class StatusesController {
     }
 
     return infinityPagination(
-      await this.statusesService.findAllWithPagination({
+      await this.statusesServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -80,7 +80,7 @@ export class StatusesController {
     type: Status,
   })
   findById(@Param('id') id: number) {
-    return this.statusesService.findById(id);
+    return this.statusesServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -93,7 +93,7 @@ export class StatusesController {
     type: Status,
   })
   update(@Param('id') id: number, @Body() updateStatusDto: UpdateStatusDto) {
-    return this.statusesService.update(id, updateStatusDto);
+    return this.statusesServiceBase.update(id, updateStatusDto);
   }
 
   @Delete(':id')
@@ -103,6 +103,6 @@ export class StatusesController {
     required: true,
   })
   remove(@Param('id') id: number) {
-    return this.statusesService.remove(id);
+    return this.statusesServiceBase.remove(id);
   }
 }

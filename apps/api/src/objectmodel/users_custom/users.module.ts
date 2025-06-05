@@ -1,6 +1,6 @@
-import { OrganizationsModule } from '../organizations/organizations.module';
+import { OrganizationsModuleBase } from '../organizations/organizations.module';
 
-import { UserRolesModule } from '../user-roles/user-roles.module';
+import { UserRolesModuleBase } from '../user-roles/user-roles.module';
 
 import {
   // do not remove this comment
@@ -12,9 +12,9 @@ import { RelationalUserPersistenceModule } from './infrastructure/persistence/re
 
 @Module({
   imports: [
-    OrganizationsModule,
+    OrganizationsModuleBase,
 
-    UserRolesModule,
+    UserRolesModuleBase,
 
     // do not remove this comment
     RelationalUserPersistenceModule,

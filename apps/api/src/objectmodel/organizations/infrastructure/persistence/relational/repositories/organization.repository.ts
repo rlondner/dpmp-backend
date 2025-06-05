@@ -4,23 +4,23 @@ import { Repository, In } from 'typeorm';
 import { OrganizationEntity } from '../entities/organization.entity';
 import { NullableType } from '../../../../../../utils/types/nullable.type';
 import { Organization } from '../../../../domain/organization';
-import { OrganizationRepository } from '../../organization.repository';
+import { OrganizationRepositoryBase } from '../../organization.repository';
 import { OrganizationMapper } from '../mappers/organization.mapper';
 import { IPaginationOptions } from '../../../../../../utils/types/pagination-options';
 
 @Injectable()
-export class OrganizationRelationalRepository
-  implements OrganizationRepository
+export class OrganizationRelationalRepositoryBase
+  implements OrganizationRepositoryBase
 {
   constructor(
     @InjectRepository(OrganizationEntity)
-    private readonly organizationRepository: Repository<OrganizationEntity>,
+    private readonly organizationRepositoryBase: Repository<OrganizationEntity>,
   ) {}
 
   async create(data: Organization): Promise<Organization> {
     const persistenceModel = OrganizationMapper.toPersistence(data);
-    const newEntity = await this.organizationRepository.save(
-      this.organizationRepository.create(persistenceModel),
+    const newEntity = await this.organizationRepositoryBase.save(
+      this.organizationRepositoryBase.create(persistenceModel),
     );
     return OrganizationMapper.toDomain(newEntity);
   }
@@ -30,7 +30,7 @@ export class OrganizationRelationalRepository
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Organization[]> {
-    const entities = await this.organizationRepository.find({
+    const entities = await this.organizationRepositoryBase.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
@@ -39,7 +39,7 @@ export class OrganizationRelationalRepository
   }
 
   async findById(id: Organization['id']): Promise<NullableType<Organization>> {
-    const entity = await this.organizationRepository.findOne({
+    const entity = await this.organizationRepositoryBase.findOne({
       where: { id },
     });
 
@@ -47,7 +47,7 @@ export class OrganizationRelationalRepository
   }
 
   async findByIds(ids: Organization['id'][]): Promise<Organization[]> {
-    const entities = await this.organizationRepository.find({
+    const entities = await this.organizationRepositoryBase.find({
       where: { id: In(ids) },
     });
 
@@ -58,7 +58,7 @@ export class OrganizationRelationalRepository
     id: Organization['id'],
     payload: Partial<Organization>,
   ): Promise<Organization> {
-    const entity = await this.organizationRepository.findOne({
+    const entity = await this.organizationRepositoryBase.findOne({
       where: { id },
     });
 
@@ -66,8 +66,8 @@ export class OrganizationRelationalRepository
       throw new Error('Record not found');
     }
 
-    const updatedEntity = await this.organizationRepository.save(
-      this.organizationRepository.create(
+    const updatedEntity = await this.organizationRepositoryBase.save(
+      this.organizationRepositoryBase.create(
         OrganizationMapper.toPersistence({
           ...OrganizationMapper.toDomain(entity),
           ...payload,
@@ -79,6 +79,6 @@ export class OrganizationRelationalRepository
   }
 
   async remove(id: Organization['id']): Promise<void> {
-    await this.organizationRepository.delete(id);
+    await this.organizationRepositoryBase.delete(id);
   }
 }

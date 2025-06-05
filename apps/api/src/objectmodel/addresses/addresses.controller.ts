@@ -9,7 +9,7 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { AddressesService } from './addresses.service';
+import { AddressesServiceBase } from './addresses.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import {
@@ -35,15 +35,15 @@ import { FindAllAddressesDto } from './dto/find-all-addresses.dto';
   path: 'addresses',
   version: '1',
 })
-export class AddressesController {
-  constructor(private readonly addressesService: AddressesService) {}
+export class AddressesControllerBase {
+  constructor(private readonly addressesServiceBase: AddressesServiceBase) {}
 
   @Post()
   @ApiCreatedResponse({
     type: Address,
   })
   create(@Body() createAddressDto: CreateAddressDto) {
-    return this.addressesService.create(createAddressDto);
+    return this.addressesServiceBase.create(createAddressDto);
   }
 
   @Get()
@@ -60,7 +60,7 @@ export class AddressesController {
     }
 
     return infinityPagination(
-      await this.addressesService.findAllWithPagination({
+      await this.addressesServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -80,7 +80,7 @@ export class AddressesController {
     type: Address,
   })
   findById(@Param('id') id: string) {
-    return this.addressesService.findById(id);
+    return this.addressesServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -93,7 +93,7 @@ export class AddressesController {
     type: Address,
   })
   update(@Param('id') id: string, @Body() updateAddressDto: UpdateAddressDto) {
-    return this.addressesService.update(id, updateAddressDto);
+    return this.addressesServiceBase.update(id, updateAddressDto);
   }
 
   @Delete(':id')
@@ -103,6 +103,6 @@ export class AddressesController {
     required: true,
   })
   remove(@Param('id') id: string) {
-    return this.addressesService.remove(id);
+    return this.addressesServiceBase.remove(id);
   }
 }

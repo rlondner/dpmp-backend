@@ -4,21 +4,21 @@ import { Repository, In } from 'typeorm';
 import { AddressEntity } from '../entities/address.entity';
 import { NullableType } from '../../../../../../utils/types/nullable.type';
 import { Address } from '../../../../domain/address';
-import { AddressRepository } from '../../address.repository';
+import { AddressRepositoryBase } from '../../address.repository';
 import { AddressMapper } from '../mappers/address.mapper';
 import { IPaginationOptions } from '../../../../../../utils/types/pagination-options';
 
 @Injectable()
-export class AddressRelationalRepository implements AddressRepository {
+export class AddressRelationalRepositoryBase implements AddressRepositoryBase {
   constructor(
     @InjectRepository(AddressEntity)
-    private readonly addressRepository: Repository<AddressEntity>,
+    private readonly addressRepositoryBase: Repository<AddressEntity>,
   ) {}
 
   async create(data: Address): Promise<Address> {
     const persistenceModel = AddressMapper.toPersistence(data);
-    const newEntity = await this.addressRepository.save(
-      this.addressRepository.create(persistenceModel),
+    const newEntity = await this.addressRepositoryBase.save(
+      this.addressRepositoryBase.create(persistenceModel),
     );
     return AddressMapper.toDomain(newEntity);
   }
@@ -28,7 +28,7 @@ export class AddressRelationalRepository implements AddressRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Address[]> {
-    const entities = await this.addressRepository.find({
+    const entities = await this.addressRepositoryBase.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
@@ -37,7 +37,7 @@ export class AddressRelationalRepository implements AddressRepository {
   }
 
   async findById(id: Address['id']): Promise<NullableType<Address>> {
-    const entity = await this.addressRepository.findOne({
+    const entity = await this.addressRepositoryBase.findOne({
       where: { id },
     });
 
@@ -45,7 +45,7 @@ export class AddressRelationalRepository implements AddressRepository {
   }
 
   async findByIds(ids: Address['id'][]): Promise<Address[]> {
-    const entities = await this.addressRepository.find({
+    const entities = await this.addressRepositoryBase.find({
       where: { id: In(ids) },
     });
 
@@ -53,7 +53,7 @@ export class AddressRelationalRepository implements AddressRepository {
   }
 
   async update(id: Address['id'], payload: Partial<Address>): Promise<Address> {
-    const entity = await this.addressRepository.findOne({
+    const entity = await this.addressRepositoryBase.findOne({
       where: { id },
     });
 
@@ -61,8 +61,8 @@ export class AddressRelationalRepository implements AddressRepository {
       throw new Error('Record not found');
     }
 
-    const updatedEntity = await this.addressRepository.save(
-      this.addressRepository.create(
+    const updatedEntity = await this.addressRepositoryBase.save(
+      this.addressRepositoryBase.create(
         AddressMapper.toPersistence({
           ...AddressMapper.toDomain(entity),
           ...payload,
@@ -74,6 +74,6 @@ export class AddressRelationalRepository implements AddressRepository {
   }
 
   async remove(id: Address['id']): Promise<void> {
-    await this.addressRepository.delete(id);
+    await this.addressRepositoryBase.delete(id);
   }
 }

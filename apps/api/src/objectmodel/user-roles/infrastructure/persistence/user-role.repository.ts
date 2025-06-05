@@ -3,7 +3,7 @@ import { NullableType } from '../../../../utils/types/nullable.type';
 import { IPaginationOptions } from '../../../../utils/types/pagination-options';
 import { UserRole } from '../../domain/user-role';
 
-export abstract class UserRoleRepository {
+export abstract class UserRoleRepositoryBase {
   abstract create(
     data: Omit<UserRole, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<UserRole>;

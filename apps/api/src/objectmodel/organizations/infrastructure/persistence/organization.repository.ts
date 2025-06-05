@@ -3,7 +3,7 @@ import { NullableType } from '../../../../utils/types/nullable.type';
 import { IPaginationOptions } from '../../../../utils/types/pagination-options';
 import { Organization } from '../../domain/organization';
 
-export abstract class OrganizationRepository {
+export abstract class OrganizationRepositoryBase {
   abstract create(
     data: Omit<Organization, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Organization>;

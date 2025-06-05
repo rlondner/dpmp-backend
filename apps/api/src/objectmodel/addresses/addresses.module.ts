@@ -2,8 +2,8 @@ import {
   // do not remove this comment
   Module,
 } from '@nestjs/common';
-import { AddressesService } from './addresses.service';
-import { AddressesController } from './addresses.controller';
+import { AddressesServiceBase } from './addresses.service';
+import { AddressesControllerBase } from './addresses.controller';
 import { RelationalAddressPersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
 
 @Module({
@@ -11,8 +11,8 @@ import { RelationalAddressPersistenceModule } from './infrastructure/persistence
     // do not remove this comment
     RelationalAddressPersistenceModule,
   ],
-  controllers: [AddressesController],
-  providers: [AddressesService],
-  exports: [AddressesService, RelationalAddressPersistenceModule],
+  controllers: [AddressesControllerBase],
+  providers: [AddressesServiceBase],
+  exports: [AddressesServiceBase, RelationalAddressPersistenceModule],
 })
-export class AddressesModule {}
+export class AddressesModuleBase {}

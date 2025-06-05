@@ -9,7 +9,7 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { UserRolesService } from './user-roles.service';
+import { UserRolesServiceBase } from './user-roles.service';
 import { CreateUserRoleDto } from './dto/create-user-role.dto';
 import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 import {
@@ -35,15 +35,15 @@ import { FindAllUserRolesDto } from './dto/find-all-user-roles.dto';
   path: 'user-roles',
   version: '1',
 })
-export class UserRolesController {
-  constructor(private readonly userRolesService: UserRolesService) {}
+export class UserRolesControllerBase {
+  constructor(private readonly userRolesServiceBase: UserRolesServiceBase) {}
 
   @Post()
   @ApiCreatedResponse({
     type: UserRole,
   })
   create(@Body() createUserRoleDto: CreateUserRoleDto) {
-    return this.userRolesService.create(createUserRoleDto);
+    return this.userRolesServiceBase.create(createUserRoleDto);
   }
 
   @Get()
@@ -60,7 +60,7 @@ export class UserRolesController {
     }
 
     return infinityPagination(
-      await this.userRolesService.findAllWithPagination({
+      await this.userRolesServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -80,7 +80,7 @@ export class UserRolesController {
     type: UserRole,
   })
   findById(@Param('id') id: number) {
-    return this.userRolesService.findById(id);
+    return this.userRolesServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -96,7 +96,7 @@ export class UserRolesController {
     @Param('id') id: number,
     @Body() updateUserRoleDto: UpdateUserRoleDto,
   ) {
-    return this.userRolesService.update(id, updateUserRoleDto);
+    return this.userRolesServiceBase.update(id, updateUserRoleDto);
   }
 
   @Delete(':id')
@@ -106,6 +106,6 @@ export class UserRolesController {
     required: true,
   })
   remove(@Param('id') id: number) {
-    return this.userRolesService.remove(id);
+    return this.userRolesServiceBase.remove(id);
   }
 }

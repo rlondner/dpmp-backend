@@ -1,6 +1,6 @@
-import { OrganizationsModule } from '../organizations/organizations.module';
+import { OrganizationsModuleBase } from '../organizations/organizations.module';
 
-import { UserRolesModule } from '../user-roles/user-roles.module';
+import { UserRolesModuleBase } from '../user-roles/user-roles.module';
 
 import {
   // do not remove this comment
@@ -8,19 +8,19 @@ import {
 } from '@nestjs/common';
 import { UsersServiceBase } from './users.service';
 import { UsersControllerBase } from './users.controller';
-import { RelationalUserPersistenceModuleBase } from './infrastructure/persistence/relational/relational-persistence.module';
+import { RelationalUserPersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
 
 @Module({
   imports: [
-    OrganizationsModule,
+    OrganizationsModuleBase,
 
-    UserRolesModule,
+    UserRolesModuleBase,
 
     // do not remove this comment
-    RelationalUserPersistenceModuleBase,
+    RelationalUserPersistenceModule,
   ],
   controllers: [UsersControllerBase],
   providers: [UsersServiceBase],
-  exports: [UsersServiceBase, RelationalUserPersistenceModuleBase],
+  exports: [UsersServiceBase, RelationalUserPersistenceModule],
 })
 export class UsersModuleBase {}

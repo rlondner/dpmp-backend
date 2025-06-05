@@ -31,14 +31,6 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
 
 import { UsersModule } from './objectmodel/users_custom/users.module';
 
-import { OrganizationsModule } from './objectmodel/organizations/organizations.module';
-
-import { AddressesModule } from './objectmodel/addresses/addresses.module';
-
-import { StatusesModule } from './objectmodel/statuses/statuses.module';
-
-import { UserRolesModule } from './objectmodel/user-roles/user-roles.module';
-
 const envPath = [`.${process.env.NODE_ENV?.trim() || 'development'}.env`];
 console.log('envFilePath:', envPath); // ✅ This will now work
 
@@ -48,8 +40,26 @@ const configModule = ConfigModule.forRoot({
   envFilePath: envPath,
 });
 
+import { OrganizationsModuleBase } from './objectmodel/organizations/organizations.module';
+
+import { AddressesModuleBase } from './objectmodel/addresses/addresses.module';
+
+import { StatusesModuleBase } from './objectmodel/statuses/statuses.module';
+
+import { UsersModuleBase } from './objectmodel/users/users.module';
+
+import { UserRolesModuleBase } from './objectmodel/user-roles/user-roles.module';
+
 @Module({
   imports: [
+    UsersModuleBase,
+    UsersModuleBase,
+    UsersModuleBase,
+    UserRolesModuleBase,
+    StatusesModuleBase,
+    AddressesModuleBase,
+    OrganizationsModuleBase,
+
     LoggerModule,
     LogConfigModule,
     LogContextModule,
@@ -86,10 +96,6 @@ const configModule = ConfigModule.forRoot({
       inject: [ConfigService],
     }),
     UsersModule,
-    UserRolesModule,
-    StatusesModule,
-    AddressesModule,
-    OrganizationsModule,
     FilesModule,
     AuthModule,
     SessionModule,

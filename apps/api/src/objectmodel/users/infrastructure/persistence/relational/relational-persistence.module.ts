@@ -14,4 +14,4 @@ import { UserEntity } from './entities/user.entity';
   ],
   exports: [UserRepositoryBase],
 })
-export class RelationalUserPersistenceModuleBase {}
+export class RelationalUserPersistenceModule {}

@@ -12,13 +12,13 @@ import { IPaginationOptions } from '../../../../../../utils/types/pagination-opt
 export class UserRelationalRepositoryBase implements UserRepositoryBase {
   constructor(
     @InjectRepository(UserEntity)
-    protected readonly userRepository: Repository<UserEntity>,
+    protected readonly userRepositoryBase: Repository<UserEntity>,
   ) {}
 
   async create(data: User): Promise<User> {
     const persistenceModel = UserMapper.toPersistence(data);
-    const newEntity = await this.userRepository.save(
-      this.userRepository.create(persistenceModel),
+    const newEntity = await this.userRepositoryBase.save(
+      this.userRepositoryBase.create(persistenceModel),
     );
     return UserMapper.toDomain(newEntity);
   }
@@ -28,7 +28,7 @@ export class UserRelationalRepositoryBase implements UserRepositoryBase {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
-    const entities = await this.userRepository.find({
+    const entities = await this.userRepositoryBase.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
@@ -37,7 +37,7 @@ export class UserRelationalRepositoryBase implements UserRepositoryBase {
   }
 
   async findById(id: User['id']): Promise<NullableType<User>> {
-    const entity = await this.userRepository.findOne({
+    const entity = await this.userRepositoryBase.findOne({
       where: { id },
     });
 
@@ -45,41 +45,15 @@ export class UserRelationalRepositoryBase implements UserRepositoryBase {
   }
 
   async findByIds(ids: User['id'][]): Promise<User[]> {
-    const entities = await this.userRepository.find({
+    const entities = await this.userRepositoryBase.find({
       where: { id: In(ids) },
     });
 
     return entities.map((entity) => UserMapper.toDomain(entity));
   }
 
-  async findByEmail(email: User['email']): Promise<NullableType<User>> {
-    if (!email) return null;
-
-    const entity = await this.userRepository.findOne({
-      where: { email },
-    });
-
-    return entity ? UserMapper.toDomain(entity) : null;
-  }
-
-  async findBySocialIdAndProvider({
-    socialId,
-    provider,
-  }: {
-    socialId: User['socialId'];
-    provider: User['provider'];
-  }): Promise<NullableType<User>> {
-    if (!socialId || !provider) return null;
-
-    const entity = await this.userRepository.findOne({
-      where: { socialId, provider },
-    });
-
-    return entity ? UserMapper.toDomain(entity) : null;
-  }
-
   async update(id: User['id'], payload: Partial<User>): Promise<User> {
-    const entity = await this.userRepository.findOne({
+    const entity = await this.userRepositoryBase.findOne({
       where: { id },
     });
 
@@ -87,8 +61,8 @@ export class UserRelationalRepositoryBase implements UserRepositoryBase {
       throw new Error('Record not found');
     }
 
-    const updatedEntity = await this.userRepository.save(
-      this.userRepository.create(
+    const updatedEntity = await this.userRepositoryBase.save(
+      this.userRepositoryBase.create(
         UserMapper.toPersistence({
           ...UserMapper.toDomain(entity),
           ...payload,
@@ -100,6 +74,6 @@ export class UserRelationalRepositoryBase implements UserRepositoryBase {
   }
 
   async remove(id: User['id']): Promise<void> {
-    await this.userRepository.delete(id);
+    await this.userRepositoryBase.delete(id);
   }
 }

@@ -4,22 +4,22 @@ import {
 } from '@nestjs/common';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
-import { StatusRepository } from './infrastructure/persistence/status.repository';
+import { StatusRepositoryBase } from './infrastructure/persistence/status.repository';
 import { IPaginationOptions } from '../../utils/types/pagination-options';
 import { Status } from './domain/status';
 
 @Injectable()
-export class StatusesService {
+export class StatusesServiceBase {
   constructor(
     // Dependencies here
-    private readonly statusRepository: StatusRepository,
+    private readonly statusRepositoryBase: StatusRepositoryBase,
   ) {}
 
   async create(createStatusDto: CreateStatusDto) {
     // Do not remove comment below.
     // <creating-property />
 
-    return this.statusRepository.create({
+    return this.statusRepositoryBase.create({
       // Do not remove comment below.
       // <creating-property-payload />
       name: createStatusDto.name,
@@ -31,7 +31,7 @@ export class StatusesService {
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.statusRepository.findAllWithPagination({
+    return this.statusRepositoryBase.findAllWithPagination({
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
@@ -40,11 +40,11 @@ export class StatusesService {
   }
 
   findById(id: Status['id']) {
-    return this.statusRepository.findById(id);
+    return this.statusRepositoryBase.findById(id);
   }
 
   findByIds(ids: Status['id'][]) {
-    return this.statusRepository.findByIds(ids);
+    return this.statusRepositoryBase.findByIds(ids);
   }
 
   async update(
@@ -55,7 +55,7 @@ export class StatusesService {
     // Do not remove comment below.
     // <updating-property />
 
-    return this.statusRepository.update(id, {
+    return this.statusRepositoryBase.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
       name: updateStatusDto.name,
@@ -63,6 +63,6 @@ export class StatusesService {
   }
 
   remove(id: Status['id']) {
-    return this.statusRepository.remove(id);
+    return this.statusRepositoryBase.remove(id);
   }
 }

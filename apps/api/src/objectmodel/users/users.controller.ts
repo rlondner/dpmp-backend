@@ -36,14 +36,14 @@ import { FindAllUsersDto } from './dto/find-all-users.dto';
   version: '1',
 })
 export class UsersControllerBase {
-  constructor(protected readonly usersService: UsersServiceBase) {}
+  constructor(protected readonly usersServiceBase: UsersServiceBase) {}
 
   @Post()
   @ApiCreatedResponse({
     type: User,
   })
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersServiceBase.create(createUserDto);
   }
 
   @Get()
@@ -60,7 +60,7 @@ export class UsersControllerBase {
     }
 
     return infinityPagination(
-      await this.usersService.findAllWithPagination({
+      await this.usersServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -80,7 +80,7 @@ export class UsersControllerBase {
     type: User,
   })
   findById(@Param('id') id: number) {
-    return this.usersService.findById(id);
+    return this.usersServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -93,7 +93,7 @@ export class UsersControllerBase {
     type: User,
   })
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+    return this.usersServiceBase.update(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -103,6 +103,6 @@ export class UsersControllerBase {
     required: true,
   })
   remove(@Param('id') id: number) {
-    return this.usersService.remove(id);
+    return this.usersServiceBase.remove(id);
   }
 }

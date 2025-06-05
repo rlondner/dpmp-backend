@@ -24,7 +24,7 @@ export class UserRelationalRepository
   async findByEmail(email: User['email']): Promise<NullableType<User>> {
     if (!email) return null;
 
-    const entity = await this.userRepository.findOne({
+    const entity = await this.userRepositoryBase.findOne({
       where: { email },
     });
 
@@ -40,7 +40,7 @@ export class UserRelationalRepository
   }): Promise<NullableType<User>> {
     if (!socialId || !provider) return null;
 
-    const entity = await this.userRepository.findOne({
+    const entity = await this.userRepositoryBase.findOne({
       where: { socialId, provider },
     });
 
