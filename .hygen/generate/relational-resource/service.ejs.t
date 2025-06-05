@@ -1,5 +1,5 @@
 ---
-to: src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service.ts
+to: apps/api/src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service.ts
 ---
 import { 
   // common
@@ -7,15 +7,15 @@ import {
 } from '@nestjs/common';
 import { Create<%= name %>Dto } from './dto/create-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
 import { Update<%= name %>Dto } from './dto/update-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
-import { <%= name %>Repository } from './infrastructure/persistence/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.repository';
+import { <%= name %>RepositoryBase } from './infrastructure/persistence/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.repository';
 import { IPaginationOptions } from '../../utils/types/pagination-options';
 import { <%= name %> } from './domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
 
 @Injectable()
-export class <%= h.inflection.transform(name, ['pluralize']) %>Service {
+export class <%= h.inflection.transform(name, ['pluralize']) %>ServiceBase {
   constructor(
     // Dependencies here
-    private readonly <%= h.inflection.camelize(name, true) %>Repository: <%= name %>Repository,
+    protected readonly <%= h.inflection.camelize(name, true) %>RepositoryBase: <%= name %>RepositoryBase,
   ) {}
 
   async create(
@@ -25,7 +25,7 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Service {
     // Do not remove comment below.
     // <creating-property />
 
-    return this.<%= h.inflection.camelize(name, true) %>Repository.create({
+    return this.<%= h.inflection.camelize(name, true) %>RepositoryBase.create({
       // Do not remove comment below.
       // <creating-property-payload />
     });
@@ -36,7 +36,7 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Service {
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.<%= h.inflection.camelize(name, true) %>Repository.findAllWithPagination({
+    return this.<%= h.inflection.camelize(name, true) %>RepositoryBase.findAllWithPagination({
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
@@ -45,11 +45,11 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Service {
   }
 
   findById(id: <%= name %>['id']) {
-    return this.<%= h.inflection.camelize(name, true) %>Repository.findById(id);
+    return this.<%= h.inflection.camelize(name, true) %>RepositoryBase.findById(id);
   }
 
   findByIds(ids: <%= name %>['id'][]) {
-    return this.<%= h.inflection.camelize(name, true) %>Repository.findByIds(ids);
+    return this.<%= h.inflection.camelize(name, true) %>RepositoryBase.findByIds(ids);
   }
 
   async update(
@@ -60,13 +60,13 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Service {
     // Do not remove comment below.
     // <updating-property />
 
-    return this.<%= h.inflection.camelize(name, true) %>Repository.update(id, {
+    return this.<%= h.inflection.camelize(name, true) %>RepositoryBase.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
     });
   }
 
   remove(id: <%= name %>['id']) {
-    return this.<%= h.inflection.camelize(name, true) %>Repository.remove(id);
+    return this.<%= h.inflection.camelize(name, true) %>RepositoryBase.remove(id);
   }
 }

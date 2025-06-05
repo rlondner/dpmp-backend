@@ -1,5 +1,5 @@
 ---
-to: src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller.ts
+to: apps/api/src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller.ts
 ---
 import {
   Controller,
@@ -12,7 +12,7 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { <%= h.inflection.transform(name, ['pluralize']) %>Service } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service';
+import { <%= h.inflection.transform(name, ['pluralize']) %>ServiceBase } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service';
 import { Create<%= name %>Dto } from './dto/create-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
 import { Update<%= name %>Dto } from './dto/update-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
 import {
@@ -38,15 +38,15 @@ import { FindAll<%= h.inflection.transform(name, ['pluralize']) %>Dto } from './
   path: '<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>',
   version: '1',
 })
-export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
-  constructor(private readonly <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service: <%= h.inflection.transform(name, ['pluralize']) %>Service) {}
+export class <%= h.inflection.transform(name, ['pluralize']) %>ControllerBase {
+  constructor(protected readonly <%= h.inflection.camelize(h.inflection.pluralize(name), true) %>ServiceBase: <%= h.inflection.transform(name, ['pluralize']) %>ServiceBase) {}
 
   @Post()
   @ApiCreatedResponse({
     type: <%= name %>,
   })
   create(@Body() create<%= name %>Dto: Create<%= name %>Dto) {
-    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.create(create<%= name %>Dto);
+    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>ServiceBase.create(create<%= name %>Dto);
   }
 
   @Get()
@@ -63,7 +63,7 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
     }
 
     return infinityPagination(
-      await this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.findAllWithPagination({
+      await this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>ServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -83,7 +83,7 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
     type: <%= name %>,
   })
   findById(@Param('id') id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>) {
-    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.findById(id);
+    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>ServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -99,7 +99,7 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
     @Param('id') id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>,
     @Body() update<%= name %>Dto: Update<%= name %>Dto,
   ) {
-    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.update(id, update<%= name %>Dto);
+    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>ServiceBase.update(id, update<%= name %>Dto);
   }
 
   @Delete(':id')
@@ -109,6 +109,6 @@ export class <%= h.inflection.transform(name, ['pluralize']) %>Controller {
     required: true,
   })
   remove(@Param('id') id: <% if (idType === 'increment') { -%>number<% } else { -%>string<% } -%>) {
-    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>Service.remove(id);
+    return this.<%= h.inflection.camelize(h.inflection.pluralize(name), true) %>ServiceBase.remove(id);
   }
 }

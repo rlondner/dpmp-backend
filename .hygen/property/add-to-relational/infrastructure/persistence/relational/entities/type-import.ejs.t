@@ -1,6 +1,6 @@
 ---
 inject: true
-to: src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/infrastructure/persistence/relational/entities/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.entity.ts
+to: apps/api/src/objectmodel/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/infrastructure/persistence/relational/entities/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.entity.ts
 at_line: 0
 skip_if: <% if (kind === 'reference' || kind === 'duplication') { -%>import { <%= type %>Entity<% } else { -%><%= true %><% } -%>
 ---

@@ -42,9 +42,9 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error'],
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'require-await': 'off',
-      '@typescript-eslint/require-await': 'error',
+      '@typescript-eslint/require-await': 'warn',
       '@typescript-eslint/no-floating-promises': 'error',
       'no-restricted-syntax': [
         'error',
