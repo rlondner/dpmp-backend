@@ -19,33 +19,32 @@ import { User } from './domain/user';
 @Injectable()
 export class UsersServiceBase {
   constructor(
-        protected readonly organizationService: OrganizationsService,
-    
-        protected readonly userRoleService: UserRolesService,   
-        // Dependencies here
-        protected readonly userRepository: UserRepositoryBase,
+    protected readonly organizationService: OrganizationsService,
+
+    protected readonly userRoleService: UserRolesService,
+    // Dependencies here
+    protected readonly userRepository: UserRepositoryBase,
   ) {}
-    
-  
-    async create(createUserDto: CreateUserDto) : Promise<User> {
-      const dummyUser: User = {
-        id: 1 , // Placeholder, will be replaced by actual ID after creation
-        org: null,
-        statusId: createUserDto.statusId,
-        phone: createUserDto.phone,
-        lastName: createUserDto.lastName,
-        firstName: createUserDto.firstName,
-        role2: null,
-        roleId: createUserDto.roleId,
-        password: createUserDto.password,
-        email: createUserDto.email,
-        provider: createUserDto.provider,
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const dummyUser: User = {
+      id: 1, // Placeholder, will be replaced by actual ID after creation
+      org: null,
+      statusId: createUserDto.statusId,
+      phone: createUserDto.phone,
+      lastName: createUserDto.lastName,
+      firstName: createUserDto.firstName,
+      role2: null,
+      roleId: createUserDto.roleId,
+      password: createUserDto.password,
+      email: createUserDto.email,
+      provider: createUserDto.provider,
       createdAt: new Date(),
       updatedAt: new Date(),
-      }
-      
-        return dummyUser
-    }
+    }; // Simulate async behavior to satisfy linter
+
+    return await Promise.resolve(dummyUser);
+  }
 
   // async create(createUserDto: CreateUserDto) {
   //   // Do not remove comment below.
@@ -152,8 +151,6 @@ export class UsersServiceBase {
   findByIds(ids: User['id'][]) {
     return this.userRepository.findByIds(ids);
   }
-
-
 
   async update(
     id: User['id'],

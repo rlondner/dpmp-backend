@@ -15,7 +15,9 @@ import { LogContextModule } from '@nestjs-logger/shared/context/infrastructure/n
 
 @Module({
   imports: [
-    LoggerModule, LogConfigModule, LogContextModule,
+    LoggerModule,
+    LogConfigModule,
+    LogContextModule,
     UsersModule,
     SessionModule,
     PassportModule,

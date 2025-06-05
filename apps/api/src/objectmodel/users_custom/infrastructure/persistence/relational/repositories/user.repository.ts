@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserEntity } from '../../../../../users/infrastructure/persistence/relational/entities/user.entity';
 import { NullableType } from '../../../../../../utils/types/nullable.type';
 import { User } from '../../../../../users/domain/user';
 import { UserRepository } from '../../user.repository';
 import { UserMapper } from '../../../../../users/infrastructure/persistence/relational/mappers/user.mapper';
-import { IPaginationOptions } from '../../../../../../utils/types/pagination-options';
+
 import { UserRelationalRepositoryBase } from '../../../../../users/infrastructure/persistence/relational/repositories/user.repository';
 
 @Injectable()
-export class UserRelationalRepository extends UserRelationalRepositoryBase implements UserRepository {
+export class UserRelationalRepository
+  extends UserRelationalRepositoryBase
+  implements UserRepository
+{
   constructor(
     @InjectRepository(UserEntity)
     userRepository: Repository<UserEntity>,
@@ -43,5 +46,4 @@ export class UserRelationalRepository extends UserRelationalRepositoryBase imple
 
     return entity ? UserMapper.toDomain(entity) : null;
   }
-
 }

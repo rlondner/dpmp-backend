@@ -11,7 +11,7 @@ import ContextStorageService, {
 
 @Injectable({ scope: Scope.TRANSIENT })
 export default class LoggerService implements Logger {
-  private sourceClass: string| undefined;
+  private sourceClass: string | undefined;
   private organization: string | undefined;
   private context: string | undefined;
   private app: string | undefined;

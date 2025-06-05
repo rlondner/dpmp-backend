@@ -44,16 +44,16 @@ export class AuthService {
   ) {}
 
   async validateLogin(loginDto: AuthEmailLoginDto): Promise<LoginResponseDto> {
-    
     this.logger.startProfile('validateLogin');
     //const user = await this.usersService.findByEmail(loginDto.email);
     const user = await this.usersService.findById(1);
 
     this.logger.info('validateLogin', {
-        props: {
-      email: loginDto.email,
-      userId: user?.id,
-      userRole: user?.roleId,},
+      props: {
+        email: loginDto.email,
+        userId: user?.id,
+        userRole: user?.roleId,
+      },
     });
 
     if (!user) {
@@ -335,7 +335,7 @@ export class AuthService {
 
   async forgotPassword(email: string): Promise<void> {
     const user = await this.usersService.findById(1);
-      //userByEmail = await this.usersService.findByEmail(socia
+    //userByEmail = await this.usersService.findByEmail(socia
     //const user = await this.usersService.findByEmail(email);
 
     if (!user) {

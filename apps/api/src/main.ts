@@ -1,6 +1,5 @@
 import 'dotenv/config';
 
-
 import {
   ClassSerializerInterceptor,
   ValidationPipe,
@@ -17,12 +16,12 @@ import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
 import NestjsLoggerServiceAdapter from '@nestjs-logger/shared/logger/infrastructure/nestjs/nestjsLoggerServiceAdapter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { 
-    cors: true, 
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
     // logger: LoggerFactory('DPMP API', {
     //   logLevels: ['log', 'error', 'warn', 'debug', 'verbose'],
     //   useJson: process.env.USE_JSON_LOGGER === 'true',
-    // }), 
+    // }),
   });
   app.useLogger(app.get(NestjsLoggerServiceAdapter));
   useContainer(app.select(AppModule), { fallbackOnErrors: true });

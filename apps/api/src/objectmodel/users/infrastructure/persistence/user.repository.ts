@@ -18,7 +18,6 @@ export abstract class UserRepositoryBase {
 
   abstract findByIds(ids: User['id'][]): Promise<User[]>;
 
-
   abstract update(
     id: User['id'],
     payload: DeepPartial<User>,

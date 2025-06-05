@@ -1,7 +1,7 @@
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import Logger, { LoggerKey } from '@nestjs-logger/shared/logger/domain/logger';
+//import Logger, { LoggerKey } from '@nestjs-logger/shared/logger/domain/logger';
 
 function validateConfig<T extends object>(
   config: Record<string, unknown>,

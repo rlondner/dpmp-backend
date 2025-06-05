@@ -39,20 +39,17 @@ import { StatusesModule } from './objectmodel/statuses/statuses.module';
 
 import { UserRolesModule } from './objectmodel/user-roles/user-roles.module';
 
-
 const envPath = [`.${process.env.NODE_ENV?.trim() || 'development'}.env`];
 console.log('envFilePath:', envPath); // ✅ This will now work
 
 const configModule = ConfigModule.forRoot({
-  isGlobal: true,
-  load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
-  envFilePath: envPath,
+  isGlobal: true,
+  load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
+  envFilePath: envPath,
 });
-
 
 @Module({
   imports: [
-
     LoggerModule,
     LogConfigModule,
     LogContextModule,
@@ -99,7 +96,6 @@ const configModule = ConfigModule.forRoot({
     MailModule,
     MailerModule,
     HomeModule,
-
   ],
 })
 export class AppModule {}
