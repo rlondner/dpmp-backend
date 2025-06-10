@@ -8,6 +8,7 @@ import {
   IsString,
   IsOptional,
   IsNumber,
+  IsArray,
   ValidateNested,
   IsNotEmptyObject,
 } from 'class-validator';
@@ -46,14 +47,6 @@ export class CreateUserDto {
   })
   @IsOptional()
   @IsString()
-  phone?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => String,
-  })
-  @IsOptional()
-  @IsString()
   lastName?: string | null;
 
   @ApiProperty({
@@ -66,13 +59,13 @@ export class CreateUserDto {
 
   @ApiProperty({
     required: false,
-    type: () => UserRoleDto,
+    type: () => [UserRoleDto],
   })
   @IsOptional()
   @ValidateNested()
   @Type(() => UserRoleDto)
-  @IsNotEmptyObject()
-  role2?: UserRoleDto | null;
+  @IsArray()
+  role2?: UserRoleDto[] | null;
 
   @ApiProperty({
     required: true,

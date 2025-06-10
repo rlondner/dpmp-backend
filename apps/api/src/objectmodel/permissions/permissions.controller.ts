@@ -9,9 +9,9 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { UserRolesServiceBase } from './user-roles.service';
-import { CreateUserRoleDto } from './dto/create-user-role.dto';
-import { UpdateUserRoleDto } from './dto/update-user-role.dto';
+import { PermissionsServiceBase } from './permissions.service';
+import { CreatePermissionDto } from './dto/create-permission.dto';
+import { UpdatePermissionDto } from './dto/update-permission.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -19,40 +19,42 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserRole } from './domain/user-role';
+import { Permission } from './domain/permission';
 import { AuthGuard } from '@nestjs/passport';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../../utils/infinity-pagination';
-import { FindAllUserRolesDto } from './dto/find-all-user-roles.dto';
+import { FindAllPermissionsDto } from './dto/find-all-permissions.dto';
 
-@ApiTags('Userroles')
+@ApiTags('Permissions')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller({
-  path: 'user-roles',
+  path: 'permissions',
   version: '1',
 })
-export class UserRolesControllerBase {
-  constructor(protected readonly userRolesServiceBase: UserRolesServiceBase) {}
+export class PermissionsControllerBase {
+  constructor(
+    protected readonly permissionsServiceBase: PermissionsServiceBase,
+  ) {}
 
   @Post()
   @ApiCreatedResponse({
-    type: UserRole,
+    type: Permission,
   })
-  create(@Body() createUserRoleDto: CreateUserRoleDto) {
-    return this.userRolesServiceBase.create(createUserRoleDto);
+  create(@Body() createPermissionDto: CreatePermissionDto) {
+    return this.permissionsServiceBase.create(createPermissionDto);
   }
 
   @Get()
   @ApiOkResponse({
-    type: InfinityPaginationResponse(UserRole),
+    type: InfinityPaginationResponse(Permission),
   })
   async findAll(
-    @Query() query: FindAllUserRolesDto,
-  ): Promise<InfinityPaginationResponseDto<UserRole>> {
+    @Query() query: FindAllPermissionsDto,
+  ): Promise<InfinityPaginationResponseDto<Permission>> {
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -60,7 +62,7 @@ export class UserRolesControllerBase {
     }
 
     return infinityPagination(
-      await this.userRolesServiceBase.findAllWithPagination({
+      await this.permissionsServiceBase.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
@@ -77,10 +79,10 @@ export class UserRolesControllerBase {
     required: true,
   })
   @ApiOkResponse({
-    type: UserRole,
+    type: Permission,
   })
   findById(@Param('id') id: number) {
-    return this.userRolesServiceBase.findById(id);
+    return this.permissionsServiceBase.findById(id);
   }
 
   @Patch(':id')
@@ -90,13 +92,13 @@ export class UserRolesControllerBase {
     required: true,
   })
   @ApiOkResponse({
-    type: UserRole,
+    type: Permission,
   })
   update(
     @Param('id') id: number,
-    @Body() updateUserRoleDto: UpdateUserRoleDto,
+    @Body() updatePermissionDto: UpdatePermissionDto,
   ) {
-    return this.userRolesServiceBase.update(id, updateUserRoleDto);
+    return this.permissionsServiceBase.update(id, updatePermissionDto);
   }
 
   @Delete(':id')
@@ -106,6 +108,6 @@ export class UserRolesControllerBase {
     required: true,
   })
   remove(@Param('id') id: number) {
-    return this.userRolesServiceBase.remove(id);
+    return this.permissionsServiceBase.remove(id);
   }
 }

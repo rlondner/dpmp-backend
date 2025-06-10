@@ -1,3 +1,5 @@
+import { PermissionsModuleBase } from '../permissions/permissions.module';
+
 import {
   // do not remove this comment
   Module,
@@ -8,6 +10,8 @@ import { RelationalUserRolePersistenceModule } from './infrastructure/persistenc
 
 @Module({
   imports: [
+    PermissionsModuleBase,
+
     // do not remove this comment
     RelationalUserRolePersistenceModule,
   ],

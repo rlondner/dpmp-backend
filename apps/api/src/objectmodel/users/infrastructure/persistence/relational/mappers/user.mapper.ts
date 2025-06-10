@@ -16,14 +16,14 @@ export class UserMapper {
 
     domainEntity.statusId = raw.statusId;
 
-    domainEntity.phone = raw.phone;
-
     domainEntity.lastName = raw.lastName;
 
     domainEntity.firstName = raw.firstName;
 
     if (raw.role2) {
-      domainEntity.role2 = UserRoleMapper.toDomain(raw.role2);
+      domainEntity.role2 = raw.role2.map((item) =>
+        UserRoleMapper.toDomain(item),
+      );
     } else if (raw.role2 === null) {
       domainEntity.role2 = null;
     }
@@ -57,15 +57,13 @@ export class UserMapper {
 
     persistenceEntity.statusId = domainEntity.statusId;
 
-    persistenceEntity.phone = domainEntity.phone;
-
     persistenceEntity.lastName = domainEntity.lastName;
 
     persistenceEntity.firstName = domainEntity.firstName;
 
     if (domainEntity.role2) {
-      persistenceEntity.role2 = UserRoleMapper.toPersistence(
-        domainEntity.role2,
+      persistenceEntity.role2 = domainEntity.role2.map((item) =>
+        UserRoleMapper.toPersistence(item),
       );
     } else if (domainEntity.role2 === null) {
       persistenceEntity.role2 = null;

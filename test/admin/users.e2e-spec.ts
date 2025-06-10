@@ -3,7 +3,6 @@ import request from 'supertest';
 import { RoleEnum } from '../../apps/api/src/objectmodel/roles/roles.enum';
 import { StatusEnum } from '../../apps/api/src/objectmodel/statuses_original/statuses.enum';
 
-
 describe('Users Module', () => {
   const app = APP_URL;
   let apiToken;

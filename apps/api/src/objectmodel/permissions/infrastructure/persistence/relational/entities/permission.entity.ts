@@ -1,24 +1,16 @@
-import { PermissionEntity } from '../../../../../permissions/infrastructure/persistence/relational/entities/permission.entity';
-
 import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
-  JoinTable,
-  ManyToMany,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../../utils/relational-entity-helper';
 
 @Entity({
-  name: 'user_role',
+  name: 'permission',
 })
-export class UserRoleEntity extends EntityRelationalHelper {
-  @ManyToMany(() => PermissionEntity, { eager: true, nullable: false })
-  @JoinTable()
-  permissions: PermissionEntity[];
-
+export class PermissionEntity extends EntityRelationalHelper {
   @Column({
     nullable: false,
     type: Boolean,
@@ -26,10 +18,16 @@ export class UserRoleEntity extends EntityRelationalHelper {
   active: boolean;
 
   @Column({
+    nullable: true,
+    type: String,
+  })
+  description?: string | null;
+
+  @Column({
     nullable: false,
     type: String,
   })
-  name: string;
+  slug: string;
 
   @PrimaryGeneratedColumn('increment')
   id: number;

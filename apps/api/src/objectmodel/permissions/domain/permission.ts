@@ -1,14 +1,6 @@
-import { Permission } from '../../permissions/domain/permission';
-
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserRole {
-  @ApiProperty({
-    type: () => [Permission],
-    nullable: false,
-  })
-  permissions: Permission[];
-
+export class Permission {
   @ApiProperty({
     type: () => Boolean,
     nullable: false,
@@ -17,9 +9,15 @@ export class UserRole {
 
   @ApiProperty({
     type: () => String,
+    nullable: true,
+  })
+  description?: string | null;
+
+  @ApiProperty({
+    type: () => String,
     nullable: false,
   })
-  name: string;
+  slug: string;
 
   @ApiProperty({
     type: Number,

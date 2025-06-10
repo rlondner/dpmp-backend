@@ -68,13 +68,13 @@ export class UsersService extends UsersServiceBase {
       email = createUserDto.email;
     }
 
-    let role2: UserRole | null | undefined = undefined;
+    let role2: UserRole[] | null | undefined = undefined;
 
     if (createUserDto.role2) {
-      const role2Object = await this.userRoleServiceBase.findById(
-        createUserDto.role2.id,
+      const role2Objects = await this.userRoleServiceBase.findByIds(
+        createUserDto.role2.map((entity) => entity.id),
       );
-      if (!role2Object) {
+      if (role2Objects.length !== createUserDto.role2.length) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
@@ -82,7 +82,7 @@ export class UsersService extends UsersServiceBase {
           },
         });
       }
-      role2 = role2Object;
+      role2 = role2Objects;
     } else if (createUserDto.role2 === null) {
       role2 = null;
     }

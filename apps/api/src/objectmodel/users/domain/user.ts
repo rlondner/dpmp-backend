@@ -21,12 +21,6 @@ export class User {
     type: () => String,
     nullable: true,
   })
-  phone?: string | null;
-
-  @ApiProperty({
-    type: () => String,
-    nullable: true,
-  })
   lastName?: string | null;
 
   @ApiProperty({
@@ -36,10 +30,10 @@ export class User {
   firstName?: string | null;
 
   @ApiProperty({
-    type: () => UserRole,
+    type: () => [UserRole],
     nullable: true,
   })
-  role2?: UserRole | null;
+  role2?: UserRole[] | null;
 
   @ApiProperty({
     type: () => Number,

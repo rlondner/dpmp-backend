@@ -50,12 +50,23 @@ import { UsersModuleBase } from './objectmodel/users/users.module';
 
 import { UserRolesModuleBase } from './objectmodel/user-roles/user-roles.module';
 
+import { PermissionsModuleBase } from './objectmodel/permissions/permissions.module';
+
+import { PermissionsModuleBase } from './objectmodel/permissions/permissions.module';
+
+import { UserRolesModuleBase } from './objectmodel/user-roles/user-roles.module';
+
+import { UsersModuleBase } from './objectmodel/users/users.module';
+
 @Module({
   imports: [
     UsersModuleBase,
-    UsersModuleBase,
+    UserRolesModuleBase,
+    PermissionsModuleBase,
     UsersModuleBase,
     UserRolesModuleBase,
+    PermissionsModuleBase,
+
     StatusesModuleBase,
     AddressesModuleBase,
     OrganizationsModuleBase,

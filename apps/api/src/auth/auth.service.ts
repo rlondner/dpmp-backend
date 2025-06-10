@@ -57,12 +57,11 @@ export class AuthService {
     });
 
     if (!user) {
-          this.logger.warn('notFoundUser', {
-      props: {
-        email: loginDto.email,
-
-      },
-    });
+      this.logger.warn('notFoundUser', {
+        props: {
+          email: loginDto.email,
+        },
+      });
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {
@@ -81,12 +80,11 @@ export class AuthService {
     }
 
     if (!user.password) {
-                this.logger.warn('incorrectPassword', {
-      props: {
-        email: loginDto.email,
-
-      }
-          });
+      this.logger.warn('incorrectPassword', {
+        props: {
+          email: loginDto.email,
+        },
+      });
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {
@@ -101,12 +99,11 @@ export class AuthService {
     );
 
     if (!isValidPassword) {
-                      this.logger.warn('incorrectPassword', {
-      props: {
-        email: loginDto.email,
-
-      }
-          });
+      this.logger.warn('incorrectPassword', {
+        props: {
+          email: loginDto.email,
+        },
+      });
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {
@@ -115,12 +112,11 @@ export class AuthService {
       });
     }
 
-                    this.logger.info('validLogin', {
+    this.logger.info('validLogin', {
       props: {
         email: loginDto.email,
-
-      }
-          });
+      },
+    });
     const hash = crypto
       .createHash('sha256')
       .update(randomStringGenerator())

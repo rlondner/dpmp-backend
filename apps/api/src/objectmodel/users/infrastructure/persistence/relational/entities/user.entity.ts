@@ -8,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../../utils/relational-entity-helper';
@@ -29,12 +31,6 @@ export class UserEntity extends EntityRelationalHelper {
     nullable: true,
     type: String,
   })
-  phone?: string | null;
-
-  @Column({
-    nullable: true,
-    type: String,
-  })
   lastName?: string | null;
 
   @Column({
@@ -43,8 +39,9 @@ export class UserEntity extends EntityRelationalHelper {
   })
   firstName?: string | null;
 
-  @ManyToOne(() => UserRoleEntity, { eager: true, nullable: true })
-  role2?: UserRoleEntity | null;
+  @ManyToMany(() => UserRoleEntity, { eager: true, nullable: true })
+  @JoinTable()
+  role2?: UserRoleEntity[] | null;
 
   @Column({
     nullable: false,

@@ -49,13 +49,13 @@ export class UsersServiceBase {
       org = null;
     }
 
-    let role2: UserRole | null | undefined = undefined;
+    let role2: UserRole[] | null | undefined = undefined;
 
     if (createUserDto.role2) {
-      const role2Object = await this.userRoleServiceBase.findById(
-        createUserDto.role2.id,
+      const role2Objects = await this.userRoleServiceBase.findByIds(
+        createUserDto.role2.map((entity) => entity.id),
       );
-      if (!role2Object) {
+      if (role2Objects.length !== createUserDto.role2.length) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
@@ -63,7 +63,7 @@ export class UsersServiceBase {
           },
         });
       }
-      role2 = role2Object;
+      role2 = role2Objects;
     } else if (createUserDto.role2 === null) {
       role2 = null;
     }
@@ -74,8 +74,6 @@ export class UsersServiceBase {
       org,
 
       statusId: createUserDto.statusId,
-
-      phone: createUserDto.phone,
 
       lastName: createUserDto.lastName,
 
@@ -142,13 +140,13 @@ export class UsersServiceBase {
       org = null;
     }
 
-    let role2: UserRole | null | undefined = undefined;
+    let role2: UserRole[] | null | undefined = undefined;
 
     if (updateUserDto.role2) {
-      const role2Object = await this.userRoleServiceBase.findById(
-        updateUserDto.role2.id,
+      const role2Objects = await this.userRoleServiceBase.findByIds(
+        updateUserDto.role2.map((entity) => entity.id),
       );
-      if (!role2Object) {
+      if (role2Objects.length !== updateUserDto.role2.length) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
@@ -156,7 +154,7 @@ export class UsersServiceBase {
           },
         });
       }
-      role2 = role2Object;
+      role2 = role2Objects;
     } else if (updateUserDto.role2 === null) {
       role2 = null;
     }
@@ -167,8 +165,6 @@ export class UsersServiceBase {
       org,
 
       statusId: updateUserDto.statusId,
-
-      phone: updateUserDto.phone,
 
       lastName: updateUserDto.lastName,
 

@@ -14,7 +14,7 @@ export class UserRoleRelationalRepositoryBase
 {
   constructor(
     @InjectRepository(UserRoleEntity)
-    private readonly userRoleRepositoryBase: Repository<UserRoleEntity>,
+    protected readonly userRoleRepositoryBase: Repository<UserRoleEntity>,
   ) {}
 
   async create(data: UserRole): Promise<UserRole> {
