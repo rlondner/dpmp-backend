@@ -1,5 +1,7 @@
 import { OrganizationEntity } from '../../../../../organizations/infrastructure/persistence/relational/entities/organization.entity';
 
+import { PermissionEntity } from '../../../../../permissions/infrastructure/persistence/relational/entities/permission.entity';
+
 import { UserRoleEntity } from '../../../../../user-roles/infrastructure/persistence/relational/entities/user-role.entity';
 
 import {
@@ -39,9 +41,19 @@ export class UserEntity extends EntityRelationalHelper {
   })
   firstName?: string | null;
 
+  @Column({
+    nullable: false,
+    type: Boolean,
+  })
+  isSuperUser: boolean;
+
+  @ManyToMany(() => PermissionEntity, { eager: true, nullable: true })
+  @JoinTable()
+  permissions?: PermissionEntity[] | null;
+
   @ManyToMany(() => UserRoleEntity, { eager: true, nullable: true })
   @JoinTable()
-  role2?: UserRoleEntity[] | null;
+  roles?: UserRoleEntity[] | null;
 
   @Column({
     nullable: false,

@@ -31,6 +31,8 @@ import { SessionService } from '../objectmodel/session/session.service';
 import { StatusEnum } from '../objectmodel/statuses_original/statuses.enum';
 import { User } from '../objectmodel/users/domain/user';
 import Logger, { LoggerKey } from '@nestjs-logger/shared/logger/domain/logger';
+import { DisabledUserException } from '../common/http/exceptions';
+import { ErrorType } from '../common/enums';
 
 @Injectable()
 export class AuthService {
@@ -112,6 +114,14 @@ export class AuthService {
       });
     }
 
+    if (user.statusId == StatusEnum.blocked) {
+      throw new DisabledUserException(ErrorType.BlockedUser);
+    }
+
+    if (user.statusId == StatusEnum.inactive) {
+      throw new DisabledUserException(ErrorType.InactiveUser);
+    }
+
     this.logger.info('validLogin', {
       props: {
         email: loginDto.email,
@@ -188,6 +198,7 @@ export class AuthService {
         provider: authProvider,
         roleId,
         statusId,
+        isSuperUser: false,
       });
 
       user = await this.usersService.findById(user.id);
@@ -240,6 +251,7 @@ export class AuthService {
       // },
       roleId: RoleEnum.user as number,
       statusId: StatusEnum.inactive as number,
+      isSuperUser: false,
       //{
       //  id: StatusEnum.inactive,
       //}

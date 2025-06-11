@@ -1,5 +1,6 @@
 import { Organization } from '../../organizations/domain/organization';
 
+import { Permission } from '../../permissions/domain/permission';
 import { UserRole } from '../../user-roles/domain/user-role';
 
 import { ApiProperty } from '@nestjs/swagger';
@@ -30,10 +31,22 @@ export class User {
   firstName?: string | null;
 
   @ApiProperty({
+    type: () => Boolean,
+    nullable: false,
+  })
+  isSuperUser: boolean;
+
+  @ApiProperty({
+    type: () => [Permission],
+    nullable: true,
+  })
+  permissions?: Permission[] | null;
+
+  @ApiProperty({
     type: () => [UserRole],
     nullable: true,
   })
-  role2?: UserRole[] | null;
+  roles?: UserRole[] | null;
 
   @ApiProperty({
     type: () => Number,

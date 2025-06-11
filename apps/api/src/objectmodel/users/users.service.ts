@@ -1,6 +1,9 @@
 import { OrganizationsServiceBase } from '../organizations/organizations.service';
 import { Organization } from '../organizations/domain/organization';
 
+import { PermissionsServiceBase } from '../permissions/permissions.service';
+import { Permission } from '../permissions/domain/permission';
+
 import { UserRolesServiceBase } from '../user-roles/user-roles.service';
 import { UserRole } from '../user-roles/domain/user-role';
 
@@ -20,6 +23,8 @@ import { User } from './domain/user';
 export class UsersServiceBase {
   constructor(
     protected readonly organizationServiceBase: OrganizationsServiceBase,
+
+    protected readonly permissionServiceBase: PermissionsServiceBase,
 
     protected readonly userRoleServiceBase: UserRolesServiceBase,
 
@@ -49,23 +54,42 @@ export class UsersServiceBase {
       org = null;
     }
 
-    let role2: UserRole[] | null | undefined = undefined;
+    let permissions: Permission[] | null | undefined = undefined;
 
-    if (createUserDto.role2) {
-      const role2Objects = await this.userRoleServiceBase.findByIds(
-        createUserDto.role2.map((entity) => entity.id),
+    if (createUserDto.permissions) {
+      const permissionsObjects = await this.permissionServiceBase.findByIds(
+        createUserDto.permissions.map((entity) => entity.id),
       );
-      if (role2Objects.length !== createUserDto.role2.length) {
+      if (permissionsObjects.length !== createUserDto.permissions.length) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            role2: 'notExists',
+            permissions: 'notExists',
           },
         });
       }
-      role2 = role2Objects;
-    } else if (createUserDto.role2 === null) {
-      role2 = null;
+      permissions = permissionsObjects;
+    } else if (createUserDto.permissions === null) {
+      permissions = null;
+    }
+
+    let roles: UserRole[] | null | undefined = undefined;
+
+    if (createUserDto.roles) {
+      const rolesObjects = await this.userRoleServiceBase.findByIds(
+        createUserDto.roles.map((entity) => entity.id),
+      );
+      if (rolesObjects.length !== createUserDto.roles.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            roles: 'notExists',
+          },
+        });
+      }
+      roles = rolesObjects;
+    } else if (createUserDto.roles === null) {
+      roles = null;
     }
 
     return this.userRepositoryBase.create({
@@ -79,7 +103,11 @@ export class UsersServiceBase {
 
       firstName: createUserDto.firstName,
 
-      role2,
+      isSuperUser: createUserDto.isSuperUser,
+
+      permissions,
+
+      roles,
 
       roleId: createUserDto.roleId,
 
@@ -140,23 +168,42 @@ export class UsersServiceBase {
       org = null;
     }
 
-    let role2: UserRole[] | null | undefined = undefined;
+    let permissions: Permission[] | null | undefined = undefined;
 
-    if (updateUserDto.role2) {
-      const role2Objects = await this.userRoleServiceBase.findByIds(
-        updateUserDto.role2.map((entity) => entity.id),
+    if (updateUserDto.permissions) {
+      const permissionsObjects = await this.permissionServiceBase.findByIds(
+        updateUserDto.permissions.map((entity) => entity.id),
       );
-      if (role2Objects.length !== updateUserDto.role2.length) {
+      if (permissionsObjects.length !== updateUserDto.permissions.length) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            role2: 'notExists',
+            permissions: 'notExists',
           },
         });
       }
-      role2 = role2Objects;
-    } else if (updateUserDto.role2 === null) {
-      role2 = null;
+      permissions = permissionsObjects;
+    } else if (updateUserDto.permissions === null) {
+      permissions = null;
+    }
+
+    let roles: UserRole[] | null | undefined = undefined;
+
+    if (updateUserDto.roles) {
+      const rolesObjects = await this.userRoleServiceBase.findByIds(
+        updateUserDto.roles.map((entity) => entity.id),
+      );
+      if (rolesObjects.length !== updateUserDto.roles.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            roles: 'notExists',
+          },
+        });
+      }
+      roles = rolesObjects;
+    } else if (updateUserDto.roles === null) {
+      roles = null;
     }
 
     return this.userRepositoryBase.update(id, {
@@ -170,7 +217,11 @@ export class UsersServiceBase {
 
       firstName: updateUserDto.firstName,
 
-      role2,
+      isSuperUser: updateUserDto.isSuperUser,
+
+      permissions,
+
+      roles,
 
       roleId: updateUserDto.roleId,
 

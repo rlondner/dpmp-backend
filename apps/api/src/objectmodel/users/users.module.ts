@@ -1,5 +1,6 @@
 import { OrganizationsModuleBase } from '../organizations/organizations.module';
 
+import { PermissionsModuleBase } from '../permissions/permissions.module';
 import { UserRolesModuleBase } from '../user-roles/user-roles.module';
 
 import {
@@ -13,6 +14,8 @@ import { RelationalUserPersistenceModule } from './infrastructure/persistence/re
 @Module({
   imports: [
     OrganizationsModuleBase,
+
+    PermissionsModuleBase,
 
     UserRolesModuleBase,
 

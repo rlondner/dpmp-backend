@@ -1,6 +1,8 @@
 import { User } from '../../../../domain/user';
 import { OrganizationMapper } from '../../../../../organizations/infrastructure/persistence/relational/mappers/organization.mapper';
 
+import { PermissionMapper } from '../../../../../permissions/infrastructure/persistence/relational/mappers/permission.mapper';
+
 import { UserRoleMapper } from '../../../../../user-roles/infrastructure/persistence/relational/mappers/user-role.mapper';
 
 import { UserEntity } from '../entities/user.entity';
@@ -20,12 +22,22 @@ export class UserMapper {
 
     domainEntity.firstName = raw.firstName;
 
-    if (raw.role2) {
-      domainEntity.role2 = raw.role2.map((item) =>
+    domainEntity.isSuperUser = raw.isSuperUser;
+
+    if (raw.permissions) {
+      domainEntity.permissions = raw.permissions.map((item) =>
+        PermissionMapper.toDomain(item),
+      );
+    } else if (raw.permissions === null) {
+      domainEntity.permissions = null;
+    }
+
+    if (raw.roles) {
+      domainEntity.roles = raw.roles.map((item) =>
         UserRoleMapper.toDomain(item),
       );
-    } else if (raw.role2 === null) {
-      domainEntity.role2 = null;
+    } else if (raw.roles === null) {
+      domainEntity.roles = null;
     }
 
     domainEntity.roleId = raw.roleId;
@@ -61,12 +73,22 @@ export class UserMapper {
 
     persistenceEntity.firstName = domainEntity.firstName;
 
-    if (domainEntity.role2) {
-      persistenceEntity.role2 = domainEntity.role2.map((item) =>
+    persistenceEntity.isSuperUser = domainEntity.isSuperUser;
+
+    if (domainEntity.permissions) {
+      persistenceEntity.permissions = domainEntity.permissions.map((item) =>
+        PermissionMapper.toPersistence(item),
+      );
+    } else if (domainEntity.permissions === null) {
+      persistenceEntity.permissions = null;
+    }
+
+    if (domainEntity.roles) {
+      persistenceEntity.roles = domainEntity.roles.map((item) =>
         UserRoleMapper.toPersistence(item),
       );
-    } else if (domainEntity.role2 === null) {
-      persistenceEntity.role2 = null;
+    } else if (domainEntity.roles === null) {
+      persistenceEntity.roles = null;
     }
 
     persistenceEntity.roleId = domainEntity.roleId;

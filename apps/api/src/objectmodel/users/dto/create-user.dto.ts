@@ -1,5 +1,7 @@
 import { OrganizationDto } from '../../organizations/dto/organization.dto';
 
+import { PermissionDto } from '../../permissions/dto/permission.dto';
+
 import { UserRoleDto } from '../../user-roles/dto/user-role.dto';
 
 import {
@@ -10,6 +12,7 @@ import {
   IsNumber,
   IsArray,
   ValidateNested,
+  IsBoolean,
   IsNotEmptyObject,
 } from 'class-validator';
 
@@ -58,6 +61,23 @@ export class CreateUserDto {
   firstName?: string | null;
 
   @ApiProperty({
+    required: true,
+    type: () => Boolean,
+  })
+  @IsBoolean()
+  isSuperUser: boolean;
+
+  @ApiProperty({
+    required: false,
+    type: () => [PermissionDto],
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PermissionDto)
+  @IsArray()
+  permissions?: PermissionDto[] | null;
+
+  @ApiProperty({
     required: false,
     type: () => [UserRoleDto],
   })
@@ -65,7 +85,7 @@ export class CreateUserDto {
   @ValidateNested()
   @Type(() => UserRoleDto)
   @IsArray()
-  role2?: UserRoleDto[] | null;
+  roles?: UserRoleDto[] | null;
 
   @ApiProperty({
     required: true,

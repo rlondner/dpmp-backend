@@ -3,7 +3,9 @@ import { OrganizationsServiceBase } from '../organizations/organizations.service
 import { Organization } from '../organizations/domain/organization';
 import { UserRole } from '../user-roles/domain/user-role';
 import { UserRolesServiceBase } from '../user-roles/user-roles.service';
-
+import { PermissionsService } from '../permissions_custom/permissions.service';
+import { PermissionsServiceBase } from '../permissions/permissions.service';
+import { Permission } from '../permissions/domain/permission';
 import { UserRepository } from './infrastructure/persistence/user.repository';
 import { NullableType } from '../../utils/types/nullable.type';
 import { User } from '../users/domain/user';
@@ -21,11 +23,18 @@ export class UsersService extends UsersServiceBase {
 
   constructor(
     organizationServiceBase: OrganizationsServiceBase,
+    permissionServiceBase: PermissionsService,
     userRoleServiceBase: UserRolesServiceBase,
     userRepositoryBase: UserRepository,
+
   ) {
-    console.log('UsersService constructor called');
-    super(organizationServiceBase, userRoleServiceBase, userRepositoryBase);
+    //console.log('UsersService constructor called');
+    super(
+      organizationServiceBase,
+      permissionServiceBase,
+      userRoleServiceBase,
+      userRepositoryBase,
+    );
     this.extendedUserRepository = userRepositoryBase;
   }
 
@@ -68,25 +77,43 @@ export class UsersService extends UsersServiceBase {
       email = createUserDto.email;
     }
 
-    let role2: UserRole[] | null | undefined = undefined;
+    let permissions: Permission[] | null | undefined = undefined;
 
-    if (createUserDto.role2) {
-      const role2Objects = await this.userRoleServiceBase.findByIds(
-        createUserDto.role2.map((entity) => entity.id),
+    if (createUserDto.permissions) {
+      const permissionsObjects = await this.permissionServiceBase.findByIds(
+        createUserDto.permissions.map((entity) => entity.id),
       );
-      if (role2Objects.length !== createUserDto.role2.length) {
+      if (permissionsObjects.length !== createUserDto.permissions.length) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            role2: 'notExists',
+            permissions: 'notExists',
           },
         });
       }
-      role2 = role2Objects;
-    } else if (createUserDto.role2 === null) {
-      role2 = null;
+      permissions = permissionsObjects;
+    } else if (createUserDto.permissions === null) {
+      permissions = null;
     }
 
+    let roles: UserRole[] | null | undefined = undefined;
+
+    if (createUserDto.roles) {
+      const rolesObjects = await this.userRoleServiceBase.findByIds(
+        createUserDto.roles.map((entity) => entity.id),
+      );
+      if (rolesObjects.length !== createUserDto.roles.length) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            roles: 'notExists',
+          },
+        });
+      }
+      roles = rolesObjects;
+    } else if (createUserDto.roles === null) {
+      roles = null;
+    }
     return this.userRepositoryBase.create({
       // Do not remove comment below.
       // <creating-property-payload />
@@ -94,19 +121,21 @@ export class UsersService extends UsersServiceBase {
 
       statusId: createUserDto.statusId,
 
-      phone: createUserDto.phone,
-
       lastName: createUserDto.lastName,
 
       firstName: createUserDto.firstName,
 
-      role2,
+      isSuperUser: createUserDto.isSuperUser,
+
+      permissions,
+
+      roles,
 
       roleId: createUserDto.roleId,
 
       password: createUserDto.password,
 
-      email: email,
+      email: createUserDto.email,
 
       provider: createUserDto.provider,
 

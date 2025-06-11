@@ -7,8 +7,8 @@
 #sh entities/organization.sh
 #sh entities/address.sh
 #sh entities/status.sh
-sh entities/permission.sh
-sh entities/user-role.sh
+#sh entities/permission.sh
+#sh entities/user-role.sh
 sh entities/user.sh
 #sh entities/user-role.sh
 #sh entities/user-profile.sh

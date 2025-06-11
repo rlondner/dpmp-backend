@@ -30,6 +30,7 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
 });
 
 import { UsersModule } from './objectmodel/users_custom/users.module';
+import { PermissionsModule } from './objectmodel/permissions_custom/permissions.module';
 
 const envPath = [`.${process.env.NODE_ENV?.trim() || 'development'}.env`];
 console.log('envFilePath:', envPath); // ✅ This will now work
@@ -52,20 +53,14 @@ import { UserRolesModuleBase } from './objectmodel/user-roles/user-roles.module'
 
 import { PermissionsModuleBase } from './objectmodel/permissions/permissions.module';
 
-import { PermissionsModuleBase } from './objectmodel/permissions/permissions.module';
 
-import { UserRolesModuleBase } from './objectmodel/user-roles/user-roles.module';
-
-import { UsersModuleBase } from './objectmodel/users/users.module';
 
 @Module({
   imports: [
     UsersModuleBase,
     UserRolesModuleBase,
     PermissionsModuleBase,
-    UsersModuleBase,
-    UserRolesModuleBase,
-    PermissionsModuleBase,
+
 
     StatusesModuleBase,
     AddressesModuleBase,
@@ -107,6 +102,7 @@ import { UsersModuleBase } from './objectmodel/users/users.module';
       inject: [ConfigService],
     }),
     UsersModule,
+    PermissionsModule,
     FilesModule,
     AuthModule,
     SessionModule,
