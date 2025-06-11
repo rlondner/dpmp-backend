@@ -53,14 +53,11 @@ import { UserRolesModuleBase } from './objectmodel/user-roles/user-roles.module'
 
 import { PermissionsModuleBase } from './objectmodel/permissions/permissions.module';
 
-
-
 @Module({
   imports: [
     UsersModuleBase,
     UserRolesModuleBase,
     PermissionsModuleBase,
-
 
     StatusesModuleBase,
     AddressesModuleBase,

@@ -17,19 +17,4 @@ export class PermissionsService extends PermissionsServiceBase {
     console.log('Permissions Custom Service constructor called');
     super(permissionRepositoryBase);
   }
-
-  override async create(createPermissionDto: CreatePermissionDto) {
-      // Do not remove comment below.
-      // <creating-property />
-  
-      return this.permissionRepositoryBase.create({
-        // Do not remove comment below.
-        // <creating-property-payload />
-        active: createPermissionDto.active,
-  
-        description: createPermissionDto.description,
-  
-        slug: createPermissionDto.slug,
-      });
-    }
 }

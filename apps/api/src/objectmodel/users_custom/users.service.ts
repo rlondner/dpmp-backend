@@ -26,7 +26,6 @@ export class UsersService extends UsersServiceBase {
     permissionServiceBase: PermissionsService,
     userRoleServiceBase: UserRolesServiceBase,
     userRepositoryBase: UserRepository,
-
   ) {
     //console.log('UsersService constructor called');
     super(
