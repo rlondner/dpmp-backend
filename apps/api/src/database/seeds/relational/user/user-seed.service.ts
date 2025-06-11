@@ -21,7 +21,7 @@ export class UserSeedService {
     private userRoleRepository: Repository<UserRoleEntity>,
     @InjectRepository(OrganizationEntity)
     private orgRepository: Repository<OrganizationEntity>,
-  ) { }
+  ) {}
 
   async run() {
     // await this.roleRepository.find({
@@ -63,7 +63,6 @@ export class UserSeedService {
         where: { slug: 'gide-avocats' },
       });
 
-
       const countAdmin = await this.repository.count({
         where: {
           roles: {
@@ -99,23 +98,25 @@ export class UserSeedService {
 
         //const adminRole = adminRoleEntity ? UserRoleMapper.toDomain(adminRoleEntity) : null;
 
-        await this.repository.save(this.repository.create({
-          firstName: 'Super',
-          lastName: 'Admin',
-          email: 'superadmin@example.com',
-          password,
-          // roles: [
-          //   adminRole ? adminRole : null,
-          // ],
-          isSuperUser: true,
-          //roles: adminRoleEntity ? [adminRoleEntity] : [],
-          // roles: [
-          //   adminRole ? adminRole : null,
-          // ],
-          roleId: RoleEnum.admin,
-          statusId: StatusEnum.active,
-          org: defaultOrg,
-        }))
+        await this.repository.save(
+          this.repository.create({
+            firstName: 'Super',
+            lastName: 'Admin',
+            email: 'superadmin@example.com',
+            password,
+            // roles: [
+            //   adminRole ? adminRole : null,
+            // ],
+            isSuperUser: true,
+            //roles: adminRoleEntity ? [adminRoleEntity] : [],
+            // roles: [
+            //   adminRole ? adminRole : null,
+            // ],
+            roleId: RoleEnum.admin,
+            statusId: StatusEnum.active,
+            org: defaultOrg,
+          }),
+        );
         // role: {)
 
         await this.repository.save(

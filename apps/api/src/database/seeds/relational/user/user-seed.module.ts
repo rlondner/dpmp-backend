@@ -8,7 +8,9 @@ import { UserRoleEntity } from '../../../../objectmodel/user-roles/infrastructur
 import { OrganizationEntity } from '../../../../objectmodel/organizations/infrastructure/persistence/relational/entities/organization.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, UserRoleEntity, OrganizationEntity])],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, UserRoleEntity, OrganizationEntity]),
+  ],
   providers: [UserSeedService],
   exports: [UserSeedService],
 })

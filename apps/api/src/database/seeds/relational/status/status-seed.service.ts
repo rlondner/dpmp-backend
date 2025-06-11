@@ -24,7 +24,7 @@ export class StatusSeedService {
           id: StatusEnum.inactive,
           name: 'Inactive',
         }),
-                this.repository.create({
+        this.repository.create({
           id: StatusEnum.blocked,
           name: 'Blocked',
         }),
