@@ -11,11 +11,14 @@ import databaseConfig from '../../config/database.config';
 import appConfig from '../../../config/app.config';
 import { PermissionSeedModule } from './permission/permission-seed.module';
 
+import { OrganizationSeedModule } from './organization/organization-seed.module';
+
 @Module({
   imports: [
-    // RoleSeedModule,
-    // StatusSeedModule,
-    // UserSeedModule,
+    OrganizationSeedModule,
+    RoleSeedModule,
+    StatusSeedModule,
+    UserSeedModule,
     PermissionSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,

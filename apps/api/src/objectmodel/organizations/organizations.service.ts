@@ -12,7 +12,7 @@ import { Organization } from './domain/organization';
 export class OrganizationsServiceBase {
   constructor(
     // Dependencies here
-    private readonly organizationRepositoryBase: OrganizationRepositoryBase,
+    protected readonly organizationRepositoryBase: OrganizationRepositoryBase,
   ) {}
 
   async create(createOrganizationDto: CreateOrganizationDto) {
@@ -23,6 +23,10 @@ export class OrganizationsServiceBase {
       // Do not remove comment below.
       // <creating-property-payload />
       subscription: createOrganizationDto.subscription,
+
+      description: createOrganizationDto.description,
+
+      slug: createOrganizationDto.slug,
 
       name: createOrganizationDto.name,
     });
@@ -61,6 +65,10 @@ export class OrganizationsServiceBase {
       // Do not remove comment below.
       // <updating-property-payload />
       subscription: updateOrganizationDto.subscription,
+
+      description: updateOrganizationDto.description,
+
+      slug: updateOrganizationDto.slug,
 
       name: updateOrganizationDto.name,
     });

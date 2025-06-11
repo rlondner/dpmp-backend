@@ -2,6 +2,7 @@ import {
   // decorators here
 
   IsString,
+  IsOptional,
 } from 'class-validator';
 
 import {
@@ -16,6 +17,21 @@ export class CreateOrganizationDto {
   })
   @IsString()
   subscription: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => String,
+  })
+  @IsOptional()
+  @IsString()
+  description?: string | null;
+
+  @ApiProperty({
+    required: true,
+    type: () => String,
+  })
+  @IsString()
+  slug: string;
 
   @ApiProperty({
     required: true,

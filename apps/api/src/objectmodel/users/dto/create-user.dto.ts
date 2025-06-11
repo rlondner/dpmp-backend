@@ -61,11 +61,12 @@ export class CreateUserDto {
   firstName?: string | null;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: () => Boolean,
   })
+  @IsOptional()
   @IsBoolean()
-  isSuperUser: boolean;
+  isSuperUser?: boolean | null;
 
   @ApiProperty({
     required: false,

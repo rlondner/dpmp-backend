@@ -46,6 +46,15 @@ export class PermissionSeedService {
         { slug: 'admin.access.roles.create', description: 'Create roles' },
         { slug: 'admin.access.roles.update', description: 'Update roles' },
       ],
+      CustomerService: [
+        { slug: 'admin.access.users.read', description: 'Read users' },
+        { slug: 'admin.access.roles.read', description: 'Read roles' },
+      ],
+      Attorney: [
+        { slug: 'admin.access.users.read', description: 'Read users' },
+        { slug: 'admin.access.roles.read', description: 'Read roles' },
+        { slug: 'admin.access.users.update', description: 'Update users' },
+      ],
     };
 
     const roleNames = Object.keys(rolePermissions);

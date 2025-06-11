@@ -32,9 +32,9 @@ export class User {
 
   @ApiProperty({
     type: () => Boolean,
-    nullable: false,
+    nullable: true,
   })
-  isSuperUser: boolean;
+  isSuperUser?: boolean | null;
 
   @ApiProperty({
     type: () => [Permission],

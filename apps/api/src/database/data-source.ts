@@ -18,8 +18,9 @@ export const AppDataSource = new DataSource({
   entities: [__dirname + '/../objectmodel/**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   cli: {
-    entitiesDir: 'src',
-
+    entitiesDir: 'apps/api/src/objectmodel',
+    migrationsDir: 'apps/api/src/database/migrations',
+    // Note: The subscribers directory is not used in this example, but you can specify it if needed.
     subscribersDir: 'subscriber',
   },
   extra: {

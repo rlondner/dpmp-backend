@@ -18,6 +18,18 @@ export class OrganizationEntity extends EntityRelationalHelper {
   subscription: string;
 
   @Column({
+    nullable: true,
+    type: String,
+  })
+  description?: string | null;
+
+  @Column({
+    nullable: false,
+    type: String,
+  })
+  slug: string;
+
+  @Column({
     nullable: false,
     type: String,
   })

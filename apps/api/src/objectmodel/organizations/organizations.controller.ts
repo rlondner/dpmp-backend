@@ -37,7 +37,7 @@ import { FindAllOrganizationsDto } from './dto/find-all-organizations.dto';
 })
 export class OrganizationsControllerBase {
   constructor(
-    private readonly organizationsServiceBase: OrganizationsServiceBase,
+    protected readonly organizationsServiceBase: OrganizationsServiceBase,
   ) {}
 
   @Post()

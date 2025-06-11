@@ -42,10 +42,10 @@ export class UserEntity extends EntityRelationalHelper {
   firstName?: string | null;
 
   @Column({
-    nullable: false,
+    nullable: true,
     type: Boolean,
   })
-  isSuperUser: boolean;
+  isSuperUser?: boolean | null;
 
   @ManyToMany(() => PermissionEntity, { eager: true, nullable: true })
   @JoinTable()

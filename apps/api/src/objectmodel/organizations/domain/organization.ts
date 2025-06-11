@@ -9,6 +9,18 @@ export class Organization {
 
   @ApiProperty({
     type: () => String,
+    nullable: true,
+  })
+  description?: string | null;
+
+  @ApiProperty({
+    type: () => String,
+    nullable: false,
+  })
+  slug: string;
+
+  @ApiProperty({
+    type: () => String,
     nullable: false,
   })
   name: string;

@@ -7,6 +7,10 @@ export class OrganizationMapper {
     const domainEntity = new Organization();
     domainEntity.subscription = raw.subscription;
 
+    domainEntity.description = raw.description;
+
+    domainEntity.slug = raw.slug;
+
     domainEntity.name = raw.name;
 
     domainEntity.id = raw.id;
@@ -19,6 +23,10 @@ export class OrganizationMapper {
   static toPersistence(domainEntity: Organization): OrganizationEntity {
     const persistenceEntity = new OrganizationEntity();
     persistenceEntity.subscription = domainEntity.subscription;
+
+    persistenceEntity.description = domainEntity.description;
+
+    persistenceEntity.slug = domainEntity.slug;
 
     persistenceEntity.name = domainEntity.name;
 

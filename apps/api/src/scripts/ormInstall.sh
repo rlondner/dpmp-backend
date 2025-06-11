@@ -28,6 +28,6 @@ sh entities/user.sh
 
 #npm run migration:generate -- apps/api/src/database/migrations/DPMP
 
-npm run lint -- --fix
+#npm run lint -- --fix
 
 #npm run migration:run

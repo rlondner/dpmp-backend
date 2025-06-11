@@ -14,7 +14,7 @@ export class OrganizationRelationalRepositoryBase
 {
   constructor(
     @InjectRepository(OrganizationEntity)
-    private readonly organizationRepositoryBase: Repository<OrganizationEntity>,
+    protected readonly organizationRepositoryBase: Repository<OrganizationEntity>,
   ) {}
 
   async create(data: Organization): Promise<Organization> {

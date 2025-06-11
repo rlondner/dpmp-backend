@@ -10,7 +10,7 @@ npm run add:property:to-relational -- --name User --property password --kind pri
 npm run add:property:to-relational -- --name User --property roleId --kind primitive --type number --isAddToDto true --isOptional false --isNullable false
 npm run add:property:to-relational -- --name User --property roles --kind reference --type UserRole --referenceType manyToMany --isAddToDto true --isOptional true --isNullable true
 npm run add:property:to-relational -- --name User --property permissions --kind reference --type Permission --referenceType manyToMany --isAddToDto true --isOptional true --isNullable true
-npm run add:property:to-relational -- --name User --property isSuperUser --kind primitive --type boolean --isAddToDto true --isOptional false --isNullable false
+npm run add:property:to-relational -- --name User --property isSuperUser --kind primitive --type boolean --isAddToDto true --isOptional true --isNullable true
 npm run add:property:to-relational -- --name User --property firstName --kind primitive --type string --isAddToDto true --isOptional true --isNullable true
 npm run add:property:to-relational -- --name User --property lastName --kind primitive --type string --isAddToDto true --isOptional true --isNullable true
 
